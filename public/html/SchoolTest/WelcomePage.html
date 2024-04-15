@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"> import { createApp, ref } from 'vue'</script>
+    <title>Добро пожаловать</title>
+</head>
+<body>
+    <img src="/public/img/background_white.jpg" class="background">
+    <div class="header">
+        <span id="org"><img src="/public/img/OrgImg.jpg" class="orgImg"><p class="orgText">Институт регионального развития</p></span>
+        <table>
+            <tr> 
+              <td id="orgTest" onmouseover="showDiv()" onmouseout="hideDiv()">Количество прошедших тест<div id="infWindow"><p class="resSchool">Общее количество:</p><p class="resSchool">Группа А:</p><p class="resSchool">Группа Б:</p></div></td>
+              <td style="display:none" onclick="showForm()">Форма обратной связи<div id ="feedback"><form action=""></form></div></td>
+            </tr>
+          </table>
+    </div>
+    <div class="welcome"><div class = "tit"></div>
+    <div class="welcome_text">«Цифровизированная организационно-педагогическая технология
+объективной мониторинговой оценки установленных ФГОС общего
+образования личностных результатов воспитания как социально
+ориентированного сегмента soft skills (универсальных компетентностей
+для планирования на основе данных этой оценки результативной
+воспитательной деятельности в общеобразовательных организациях,
+расположенных на территории Пензенской области)».
+<br> 
+<br>
+Коллектив авторов под руководством Климина С.В., 
+зам. директора Экспертного центра оценки и 
+обеспечения качества образования ООО «Российское профессорское собрание»
+<br>
+<br>
+Материалы диагностики проэкспертированы в учреждениях, подведомственных Рособрнадзору и Российской академии образования.
+    </div>
+    <form action="/schooltest/name" class="welcome_form" style="margin-top: 1.5%;">
+    <button type="submit" class="welcome_baton" style="margin-top: 4%;">Приступить к тесту</button>
+</form>
+    <button class="get_result" onclick="getResult()">Получить результаты</button>
+    </div>
+
+<script src="/public/js/WelcomePageScript.js"></script>
+</body>
+</html>
+
+
