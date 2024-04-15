@@ -603,8 +603,8 @@ body{
   margin: 20vh 37vw 20vh 37vw; 
   width: 26vw;
   min-width: 425px;
-  height: 40vh;
-  min-height: 360px;
+  height: 60vh;
+  min-height: 460px;
   border-radius: 30px;
   box-shadow: 5px 3px 6px 2px gray;
   background-color: white;
@@ -847,4 +847,8 @@ body{
     font-size: 25px;
     font-weight: bold;
     display: flex;
+  }
+
+  #myList{
+    
   }
