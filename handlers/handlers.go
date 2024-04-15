@@ -115,9 +115,7 @@ func Registration(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func SendSchools(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	districtFromUser := r.URL.Query().Get("disctrict")
-	fmt.Println(districtFromUser)
-	schools, err := database.TakeSchoolsFromBD(districtFromUser)
+	schools, err := database.TakeSchoolsFromBD()
 	if err != nil {
 		http.Error(w, "Ошибка с получением списка школ", http.StatusInternalServerError)
 		logger.Logger.Errorln("Ошибка с получением списка школ")

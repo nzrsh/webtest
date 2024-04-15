@@ -49,30 +49,32 @@
         </datalist>
     </div>
     <script>
-        var input = document.getElementById("myInput");
-        // Слушаем событие изменения значения поля ввода
-        input.addEventListener("change", function () {
-            var selectedOption = input.value;
-            console.log(selectedOption)
-            // Создаем объект запроса
-            var xhr = new XMLHttpRequest();
-            var param1Value = selectedOption;
-            var url = 'localhost:8080/registration/regme?disctrict=' + encodeURIComponent(param1Value) ///ПОМЕНЯТЬ
-            console.log(url)
-            xhr.open('GET', url, true);
-            xhr.timeout = 5000;
+        var schools //Массив школ
+              window.onload = function() {
+            fetch('/registration/regme')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка при выполнении запроса: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Сохраняем массив объектов для дальнейшей работы
+                    processSchools(data);
+                })
+                .catch(error => {
+                    if (error.message === 'Failed to fetch') {
+                        console.error('Нет интернет-соединения');
+                    } else {
+                        console.error('Ошибка при обработке запроса:', error);
+                    }
+                });
+        };
 
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var blob = xhr.response;
-                    console.log(blob)
-                    console.log("Школы получены")
-                } else {
-                    console.log('Неуспешный ответ:', xhr.status, xhr.statusText);
-                    alert("");
-                }
-            };
-        });
+        function processSchools(schools){
+            //обработка данных после их получения (фетч работает асинхронно)
+            console.log(schools)
+        }
     </script>
 </body>
 
