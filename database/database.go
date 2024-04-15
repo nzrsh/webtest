@@ -58,14 +58,14 @@ func ParseUserJSON(jsonData io.ReadCloser, w http.ResponseWriter) (schooluser Sc
 	return user, nil
 }
 
-func TakeSchoolsFromBD(district string, spec string) ([]School, error) {
+func TakeSchoolsFromBD(district string) ([]School, error) {
 	var Schools []School
 	// Проверка наличия соединения с базой данных
 	if DB == nil {
 		logger.Logger.Fatalln("Соединение с базой данных не установлено")
 	}
 
-	rows, err := DB.Query("SELECT id, district, name FROM schools WHERE district = ? AND spec = ?", district, spec)
+	rows, err := DB.Query("SELECT id, district, spec name FROM schools WHERE district = ?", district)
 	if err != nil {
 		logger.Logger.Errorln("Ошибка при считывании строк для списка", err)
 		return nil, err

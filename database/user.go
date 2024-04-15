@@ -18,6 +18,7 @@ type School struct {
 	ID       int    `json:"id"`
 	District string `json:"district"`
 	Name     string `json:"name"`
+	Spec     string `json:"spec"`
 }
 
 type Res struct {

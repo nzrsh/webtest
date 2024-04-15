@@ -116,9 +116,8 @@ func Registration(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 func SendSchools(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	districtFromUser := r.URL.Query().Get("disctrict")
-	specFromUser := r.URL.Query().Get("spec")
-	fmt.Println(districtFromUser, specFromUser)
-	schools, err := database.TakeSchoolsFromBD(districtFromUser, specFromUser)
+	fmt.Println(districtFromUser)
+	schools, err := database.TakeSchoolsFromBD(districtFromUser)
 	if err != nil {
 		http.Error(w, "Ошибка с получением списка школ", http.StatusInternalServerError)
 		logger.Logger.Errorln("Ошибка с получением списка школ")
@@ -171,29 +170,8 @@ func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 type Request struct {
 	Schoolname string `json:"schoolname"`
-	Spec       string `json:"spec"`
 }
 
 type Responce struct {
 	Schools []database.School `json:"schools"`
-}
-
-func GiveSchools(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var req Request
-
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	var res Responce
-	res.Schools, err = database.TakeSchoolsFromBD(req.Schoolname, req.Spec)
-	if err != nil {
-		logger.Logger.Errorln("Не получилось загрузить список школ ", err)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(res)
-
 }
