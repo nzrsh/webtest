@@ -58,14 +58,14 @@ func ParseUserJSON(jsonData io.ReadCloser, w http.ResponseWriter) (schooluser Sc
 	return user, nil
 }
 
-func TakeSchoolsFromBD(district string) ([]School, error) {
+func TakeSchoolsFromBD() ([]School, error) {
 	var Schools []School
 	// Проверка наличия соединения с базой данных
 	if DB == nil {
 		logger.Logger.Fatalln("Соединение с базой данных не установлено")
 	}
 
-	rows, err := DB.Query("SELECT id, district, spec name FROM schools WHERE district = ?", district)
+	rows, err := DB.Query("SELECT id, district, spec, name FROM schools")
 	if err != nil {
 		logger.Logger.Errorln("Ошибка при считывании строк для списка", err)
 		return nil, err
@@ -75,7 +75,7 @@ func TakeSchoolsFromBD(district string) ([]School, error) {
 
 	for rows.Next() {
 		var school School
-		err := rows.Scan(&school.ID, &school.District, &school.Name)
+		err := rows.Scan(&school.ID, &school.District, &school.Name, &school.Spec)
 		if err != nil {
 			logger.Logger.Errorln("Ошибка чтения школ: ", err)
 		}

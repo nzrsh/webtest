@@ -12,10 +12,10 @@
     <div class="reg">
         <!-- заголовок регистрации -->
         <div class="tit_reg"></div>
-
+        <div id="dates">
         <label for="myInput">Выберите район:</label>
         <input type="text" id="myInput" list="myList">
-        <select id="myList">
+        <datalist id="myList">
             <option value="Башмаковский район">
             <option value="Бековский Район">
             <option value="Белинский район">
@@ -45,35 +45,49 @@
             <option value="Сосновоборский район">
             <option value="Спасский район">
             <option value="Тамалинский район">
-            <option dis="Шемышейский район ОО" value="Шемышейский район">
-            </select>
-        
+            <option value="Шемышейский район">
+            </datalist>
+
+            <div class="radiobutton" style="margin-top: 10%;"><input id="one" name="rate_2" type="radio" value="child"><label for = 'one'> Школа</label></div>
+            <div class="radiobutton"><input id="two" name="rate_2" type="radio" value="student"><label for = 'two'> СПО</label></div> 
+            <input type="text" id="myInput" list="myList2">
+            <datalist id="myList2">           
+            </datalist>
     </div>
     <script>
-        var input = document.getElementById("myInput");
-        // Слушаем событие изменения значения поля ввода
-        input.addEventListener("change", function () {
-            var selectedOption = input.value;
-            console.log(selectedOption)
-            // Создаем объект запроса
-            var xhr = new XMLHttpRequest();
-            var param1Value = selectedOption;
-            var url = 'localhost:8080/registration/regme?disctrict=' + encodeURIComponent(param1Value) ///ПОМЕНЯТЬ
-            console.log(url)
-            xhr.open('GET', url, true);
-            xhr.timeout = 5000;
+        var schools //Массив школ
+              window.onload = function() {
+            fetch('/registration/regme')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка при выполнении запроса: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Сохраняем массив объектов для дальнейшей работы
+                    processSchools(data);
+                })
+                .catch(error => {
+                    if (error.message === 'Failed to fetch') {
+                        console.error('Нет интернет-соединения');
+                    } else {
+                        console.error('Ошибка при обработке запроса:', error);
+                    }
+                });
+        };
 
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var blob = xhr.response;
-                    console.log(blob)
-                    console.log("Школы получены")
-                } else {
-                    console.log('Неуспешный ответ:', xhr.status, xhr.statusText);
-                    alert("");
-                }
-            };
-        });
+        function processSchools(schools) {
+            var dataList = document.getElementById('myList2');
+            dataList.innerHTML = ''; // Очистить существующие элементы списка
+
+            schools.forEach(function(school) {
+            var option = document.createElement('option');
+            option.value = school.name; // Предположим, что у школ есть поле 'name'
+            dataList.appendChild(option);
+            });
+        }
+
     </script>
 </body>
 
