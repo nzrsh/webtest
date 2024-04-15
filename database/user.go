@@ -14,6 +14,14 @@ type SchoolUser struct {
 	Group        string   `json:"group"`
 }
 
+type User struct {
+	District string `json:"district"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Login    string `json:"login"`
+	Spec     string `json:"spec"`
+}
+
 type School struct {
 	ID       int    `json:"id"`
 	District string `json:"district"`

@@ -166,10 +166,6 @@ func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	w.WriteHeader(http.StatusOK)
 }*/
 
-type Request struct {
-	Schoolname string `json:"schoolname"`
-}
+func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-type Responce struct {
-	Schools []database.School `json:"schools"`
 }

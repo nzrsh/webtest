@@ -65,7 +65,7 @@ func TakeSchoolsFromBD() ([]School, error) {
 		logger.Logger.Fatalln("Соединение с базой данных не установлено")
 	}
 
-	rows, err := DB.Query("SELECT id, district, spec, name FROM schools")
+	rows, err := DB.Query("SELECT id, district, name, spec FROM schools")
 	if err != nil {
 		logger.Logger.Errorln("Ошибка при считывании строк для списка", err)
 		return nil, err
