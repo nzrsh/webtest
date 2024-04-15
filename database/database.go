@@ -3,7 +3,9 @@ package database
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/Rozenkranz/WebTest/logger"
@@ -65,7 +67,7 @@ func TakeSchoolsFromBD() ([]School, error) {
 		logger.Logger.Fatalln("Соединение с базой данных не установлено")
 	}
 
-	rows, err := DB.Query("SELECT id, district, spec, name FROM schools")
+	rows, err := DB.Query("SELECT id, district, name, spec FROM schools")
 	if err != nil {
 		logger.Logger.Errorln("Ошибка при считывании строк для списка", err)
 		return nil, err
@@ -88,13 +90,32 @@ func TakeSchoolsFromBD() ([]School, error) {
 	return Schools, nil
 }
 
-func RegisterUser(district string, name string, password string, login string, spec string) error {
-	query := "INSERT INTO schools (disctrict,name,password,login,spec) VALUES (?,?,?,?,?)"
+func RegisterUser(newUser User) error {
+	/*query := "INSERT INTO schools (disctrict,name,password,login,spec) VALUES (?,?,?,?,?)"
 	result, err := DB.Exec(query, district, name, password, login, spec)
 	if err != nil {
 		logger.Logger.Errorln("Ошибка при добавлении нового пользователя: ", err)
 		return err
 	}
 	logger.Logger.Infoln("Успешно добавлен новый пользователь", district, name, result)
+	return nil*/
+
+	var count int
+	err := DB.QueryRow("SELECT COUNT(*) FROM schools WHERE name = ? AND district = ?", newUser.Name, newUser.District).Scan(&count)
+	if err != nil {
+		logger.Logger.Errorln(err)
+		return err
+	}
+	if count > 0 {
+		logger.Logger.Errorln("Пользователь ", newUser.Name, " уже существует")
+		return fmt.Errorf("пользователь %s уже существует", newUser.Name)
+
+	}
+	_, err = DB.Exec("INSERT INTO schools (district, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
+	if err != nil {
+		log.Fatal(err)
+	}
+	logger.Logger.Infoln("Пользователь ", newUser.Name, " добавлен успешно")
 	return nil
+
 }

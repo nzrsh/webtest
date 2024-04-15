@@ -31,6 +31,8 @@ func SetupRoutes(router *httprouter.Router) {
 
 	router.GET("/registration/regme", handlers.SendSchools)
 
+	router.POST("/registration/reguser", handlers.RegUser)
+
 	router.GET("/studenttest/welcome", handlers.WelcomeStudent)
 	router.GET("/studenttest/test1", handlers.StudentTest1)
 	router.GET("/studenttest/test2", handlers.StudentTest2)

@@ -50,44 +50,14 @@
 
             <div class="radiobutton" style="margin-top: 10%;"><input id="one" name="rate_2" type="radio" value="child"><label for = 'one'> Школа</label></div>
             <div class="radiobutton"><input id="two" name="rate_2" type="radio" value="student"><label for = 'two'> СПО</label></div> 
-            <input type="text" id="myInput" list="myList2">
+            <input type="text" id="myInput2" list="myList2">
             <datalist id="myList2">           
             </datalist>
     </div>
-    <script>
-        var schools //Массив школ
-              window.onload = function() {
-            fetch('/registration/regme')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка при выполнении запроса: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Сохраняем массив объектов для дальнейшей работы
-                    processSchools(data);
-                })
-                .catch(error => {
-                    if (error.message === 'Failed to fetch') {
-                        console.error('Нет интернет-соединения');
-                    } else {
-                        console.error('Ошибка при обработке запроса:', error);
-                    }
-                });
-        };
-
-        function processSchools(schools) {
-            var dataList = document.getElementById('myList2');
-            dataList.innerHTML = ''; // Очистить существующие элементы списка
-
-            schools.forEach(function(school) {
-            var option = document.createElement('option');
-            option.value = school.name; // Предположим, что у школ есть поле 'name'
-            dataList.appendChild(option);
-            });
-        }
-
+            <input class="input_area" type="text" name="login" placeholder="Введите логин" />
+            <input class="input_area" type="text" name="password" placeholder="Введите пароль" />
+    <button onclick="registration()"></button>
+    <script src="/public/js/RegPageScript.js">
     </script>
 </body>
 
