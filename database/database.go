@@ -101,7 +101,7 @@ func RegisterUser(newUser User) error {
 	return nil*/
 
 	var count int
-	err := DB.QueryRow("SELECT COUNT(*) FROM users WHERE name = ? AND district = ?", newUser.Name, newUser.District).Scan(&count)
+	err := DB.QueryRow("SELECT COUNT(*) FROM schools WHERE name = ? AND district = ?", newUser.Name, newUser.District).Scan(&count)
 	if err != nil {
 		logger.Logger.Errorln(err)
 		return err
@@ -111,7 +111,7 @@ func RegisterUser(newUser User) error {
 		return fmt.Errorf("пользователь %s уже существует", newUser.Name)
 
 	}
-	_, err = DB.Exec("INSERT INTO users (disctrict, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
+	_, err = DB.Exec("INSERT INTO schools (district, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
 	if err != nil {
 		log.Fatal(err)
 	}
