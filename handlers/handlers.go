@@ -134,18 +134,7 @@ func SendSchools(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func Signup(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	r.ParseForm()
-	district := r.PostFormValue("disctrict")
-	name := r.PostFormValue("name")
-	password := r.PostFormValue("password")
-	login := r.PostFormValue("login")
-	spec := r.PostFormValue("spec")
 
-	err := database.RegisterUser(district, name, password, login, spec)
-	if err != nil {
-		http.Error(w, "Не удалось зарегистрироваться, повторите попытку позже", http.StatusInternalServerError)
-	}
-	w.WriteHeader(http.StatusOK)
 }
 
 func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -167,5 +156,17 @@ func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 }*/
 
 func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var newUser database.User
+	err := json.NewDecoder(r.Body).Decode(&newUser)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
+	err = database.RegisterUser(newUser)
+	if err != nil {
+		http.Error(w, "Ошибка регистрации, повторите попытку позже или свяжитесь с тех. поддержкой.", http.StatusInternalServerError)
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

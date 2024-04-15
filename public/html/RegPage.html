@@ -75,6 +75,37 @@
             //обработка данных после их получения (фетч работает асинхронно)
             console.log(schools)
         }
+
+        /*// Получение данных с полей ввода
+const username = document.getElementById('username').value;
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+
+// Формирование объекта с данными пользователя
+const userData = {
+    username: username,
+    email: email,
+    password: password
+};
+
+// Отправка данных на сервер
+fetch('http://yourbackendurl.com/register', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(userData)
+})
+.then(response => {
+    if (response.ok) {
+        console.log('Пользователь успешно зарегистрирован');
+    } else {
+        console.error('Ошибка при регистрации пользователя');
+    }
+})
+.catch(error => {
+    console.error('Произошла ошибка:', error);
+});*/
     </script>
 </body>
 
