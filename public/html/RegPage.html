@@ -15,7 +15,7 @@
 
         <label for="myInput">Выберите район:</label>
         <input type="text" id="myInput" list="myList">
-        <datalist id="myList">
+        <select id="myList">
             <option value="Башмаковский район">
             <option value="Бековский Район">
             <option value="Белинский район">
@@ -46,7 +46,7 @@
             <option value="Спасский район">
             <option value="Тамалинский район">
             <option dis="Шемышейский район ОО" value="Шемышейский район">
-        </datalist>
+            </select>
         
     </div>
     <script>
@@ -58,18 +58,16 @@
             // Создаем объект запроса
             var xhr = new XMLHttpRequest();
             var param1Value = selectedOption;
-            var url = 'http://attest.edu-penza.ru:8181/registration/regme?disctrict=' + encodeURIComponent(param1Value) + '&spec=child'
+            var url = 'localhost:8080/registration/regme?disctrict=' + encodeURIComponent(param1Value) ///ПОМЕНЯТЬ
+            console.log(url)
             xhr.open('GET', url, true);
             xhr.timeout = 5000;
-            xhr.responseType = 'blob'; // Указываем тип ответа как blob
 
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     var blob = xhr.response;
-                    var downloadLink = document.createElement('a');
-                    downloadLink.href = window.URL.createObjectURL(blob);
-                    downloadLink.download = 'Результаты.zip';
-                    downloadLink.click();
+                    console.log(blob)
+                    console.log("Школы получены")
                 } else {
                     console.log('Неуспешный ответ:', xhr.status, xhr.statusText);
                     alert("");

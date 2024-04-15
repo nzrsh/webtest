@@ -29,7 +29,7 @@ func SetupRoutes(router *httprouter.Router) {
 
 	router.GET("/schooltest/name", handlers.SchoolName)
 
-	router.POST("/registration/getschools", handlers.GiveSchools)
+	router.GET("/registration/regme", handlers.SendSchools)
 
 	router.GET("/studenttest/welcome", handlers.WelcomeStudent)
 	router.GET("/studenttest/test1", handlers.StudentTest1)
