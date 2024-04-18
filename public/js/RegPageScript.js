@@ -1,4 +1,4 @@
-const input = document.getElementById('myInput2');
+let input = document.getElementById('myInput2');
 let schoolName = ''; // Изначально значение пустое
 let intervalId
 const selectElement = document.getElementById('myList');
@@ -11,6 +11,7 @@ input.addEventListener('input', function () {
 
 // Обработчик события для изменений в элементе select
 selectElement.addEventListener('change', function() {
+    input.value = '';
     element2.disabled = true;
     intervalId = setInterval(createSpisok, 1000);
 });
@@ -18,6 +19,7 @@ selectElement.addEventListener('change', function() {
 // Обработчики событий для radio buttons
 radioButtons.forEach(radioButton => {
     radioButton.addEventListener('change', function() {
+        input.value = '';
         element2.disabled = true;
         createSpisok();
     });
@@ -34,7 +36,6 @@ window.onload = function () {
         })
         .then(data => {
             schools = data
-            console.log(schools)
         })
         .catch(error => {
             if (error.message === 'Failed to fetch') {
