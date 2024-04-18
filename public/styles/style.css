@@ -851,4 +851,72 @@ body{
 
   #dates{
     margin: 6%;
+    margin-bottom: 2%;
   }
+
+  .reg_input_area{
+
+    font-size: 15px;
+    border: 0px;
+    border-bottom: 1px solid rgb(160, 155, 155);
+    width: 62%;
+    height: 8%;
+    margin: 2%;
+    margin-left: 3%;
+    padding-top: 1%;
+}
+
+.reg_input_area:focus {
+  outline: none;
+  border-bottom-color: blue;
+}
+
+.reg_input_area:focus::placeholder
+{
+ color:  rgb(173, 173, 255);
+}
+
+.reg_bat{
+  font-size: 20px;
+    transition: 0.4s;
+    box-sizing: border-box;
+    border: 0000.1px;
+    width: 86%;
+    height: 3vh;
+    min-height: 48px;
+    margin: 6%;
+    margin-top: 1%;
+    padding: 4%;
+    border-radius: 30px;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.reg_bat:hover{
+    color: rgb(115, 136, 255);
+    border: 1px solid;
+    background-color: aliceblue;
+    transition: 0.4s ;
+}
+
+.reg_bat:active{
+    background-color: rgb(205, 214, 219);
+}
+
+#t{
+  margin-bottom: 0px;
+}
+
+.remarka{
+  display: none;
+  color: #A6114D;
+  position: absolute;
+  left: 3%;
+  bottom: -7px;
+  font-size: 13px;
+}
+
+.d_p{
+  position: relative;
+}

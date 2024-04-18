@@ -9,56 +9,65 @@
 
 <body>
     <img src="/public/img/background_white.jpg" class="background">
-    <div class="reg">
+    <div class="reg" style="min-height: 533px;">
         <!-- заголовок регистрации -->
         <div class="tit_reg"></div>
         <div id="dates">
-        <label for="myInput">Выберите район:</label>
-        <input type="text" id="myInput" list="myList">
-        <datalist id="myList">
-            <option value="Башмаковский район">
-            <option value="Бековский Район">
-            <option value="Белинский район">
-            <option value="Бессоновский район">
-            <option value="Вадинский район">
-            <option value="Город Заречный">
-            <option value="Город Кузнецк">
-            <option value="Город Пенза">
-            <option value="Городищенский район">
-            <option value="Земетчинский район">
-            <option value="Иссинский район">
-            <option value="Каменский район">
-            <option value="Камешкирский район">
-            <option value="Колышлейский район">
-            <option value="Кузнецкий район">
-            <option value="Лопатинский район">
-            <option value="Лунинский район">
-            <option value="Малосердобинский район">
-            <option value="Мокшанский район">
-            <option value="Наровчатский район">
-            <option value="Неверкинский район">
-            <option value="Нижнеломовский район">
-            <option value="Никольский район">
-            <option value="Пачелмский район">
-            <option value="Пензенский район">
-            <option value="Сердобский район">
-            <option value="Сосновоборский район">
-            <option value="Спасский район">
-            <option value="Тамалинский район">
-            <option value="Шемышейский район">
+            <label for="myInput"> 1. Выберите район:</label>
+            <select id="myList">
+                <option value="Башмаковский район ОО" >Башмаковский район</option>
+                <option value="Бековский район УО" >Бековский Район</option>
+                <option value="Белинский район ОО" >Белинский район</option>
+                <option value="Бессоновский район УО" >Бессоновский район</option>
+                <option value="Вадинский район ОО">Вадинский район</option>
+                <option value="Город Заречный ДО">Город Заречный</option>
+                <option value="Город Кузнецк УО">Город Кузнецк</option>
+                <option value="Город Пенза УО">Город Пенза</option>
+                <option value="Городищенский район ОО">Городищенский район</option>
+                <option value="Земетчинский район ОО">Земетчинский район</option>
+                <option value="Иссинский район УО">Иссинский район</option>
+                <option value="Каменский район УО">Каменский район</option>
+                <option value="Камешкирский район ОО">Камешкирский район</option>
+                <option value="Колышлейский район ОО">Колышлейский район</option>
+                <option value="Кузнецкий район ОО">Кузнецкий район</option>
+                <option value="Лопатинский район ОО">Лопатинский район</option>
+                <option value="Лунинский район ОО">Лунинский район</option>
+                <option value="Малосердобинский район УО">Малосердобинский район</option>
+                <option value="Мокшанский район УО">Мокшанский район</option>
+                <option value="Наровчатский район ОО">Наровчатский район</option>
+                <option value="Неверкинский район ОО">Неверкинский район</option>
+                <option value="Нижнеломовский район УО">Нижнеломовский район</option>
+                <option value="Никольский район УО">Никольский район</option>
+                <option value="Пачелмский район ОО">Пачелмский район</option>
+                <option value="Пензенский район ОО">Пензенский район</option>
+                <option value="Сердобский район ОО">Сердобский район</option>
+                <option value="Сосновоборский район ОО">Сосновоборский район</option>
+                <option value="Спасский район ОО">Спасский район</option>
+                <option value="Тамалинский район ОО">Тамалинский район</option>
+                <option value="Шемышейский район УО">Шемышейский район</option>
+                <option value="Учреждения интернатного типа">Учреждения интернатного типа</option>
+            </select>
+            <p style="margin-top: 7%;">2. Выберите тип учереждения:</p>
+            <div class="radiobutton" style="margin-top: 2%; font-size: 17px;"><input id="one" name="rate_2" type="radio"
+                    value="child"><label for='one'> Школа</label></div>
+            <div class="radiobutton" style="font-size: 17px;"><input id="two" name="rate_2" type="radio"
+                    value="student"><label for='two'> СПО</label></div>
+            <label for="myInput2"> 3. Выберите учереждение:</label>
+            <input type="text" id="myInput2" list="myList2" style="margin-top: 7%;" disabled>
+            <datalist id="myList2">
             </datalist>
-
-            <div class="radiobutton" style="margin-top: 10%;"><input id="one" name="rate_2" type="radio" value="child"><label for = 'one'> Школа</label></div>
-            <div class="radiobutton"><input id="two" name="rate_2" type="radio" value="student"><label for = 'two'> СПО</label></div> 
-            <input type="text" id="myInput2" list="myList2">
-            <datalist id="myList2">           
-            </datalist>
-    </div>
-            <input class="input_area" type="text" name="login" placeholder="Введите логин" />
-            <input class="input_area" type="text" name="password" placeholder="Введите пароль" />
-    <button onclick="registration()"></button>
-    <script src="/public/js/RegPageScript.js">
-    </script>
+            <p id="t">4. Придумайте логин и пароль</p>
+            <input class="reg_input_area" id="login" type="text" name="login" placeholder="Введите логин" />
+            <input class="reg_input_area" id="password" type="text" name="password" placeholder="Введите пароль" />
+            <div class ="d_p">
+                <label for="password2" class="remarka" id="pas_lab">я устал</label>
+                <input class="reg_input_area" id="password2" type="text" name="password"
+                    placeholder="Подтвердите пароль" />
+            </div>
+        </div>
+        <button class="reg_bat" onclick="registration()">Зарегистрироваться</button>
+        <script src="/public/js/RegPageScript.js">
+        </script>
 </body>
 
 </html>
