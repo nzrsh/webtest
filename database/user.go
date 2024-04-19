@@ -34,11 +34,11 @@ type Res struct {
 }
 
 type Message struct {
-	Disctrict string `json:"disctrict"`
-	Name      string `json:"name"`
-	Sender    string `json:"sender"`
-	Phone     string `json:"phone"`
-	Email     string `json:"email"`
-	Text      string `json:"text"`
-	Date      string `json:"date"`
+	District string `json:"district"`
+	Name     string `json:"name"`
+	Sender   string `json:"sender"`
+	Phone    string `json:"phone"`
+	Email    string `json:"email"`
+	Text     string `json:"text"`
+	Date     string `json:"date"`
 }

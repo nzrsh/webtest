@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/Rozenkranz/WebTest/logger"
@@ -91,31 +90,34 @@ func TakeSchoolsFromBD() ([]School, error) {
 }
 
 func RegisterUser(newUser User) error {
-	/*query := "INSERT INTO schools (disctrict,name,password,login,spec) VALUES (?,?,?,?,?)"
-	result, err := DB.Exec(query, district, name, password, login, spec)
+	var existingPassword string
+	err := DB.QueryRow("SELECT password FROM schools WHERE district = ? AND name = ?", newUser.District, newUser.Name).Scan(&existingPassword)
 	if err != nil {
-		logger.Logger.Errorln("Ошибка при добавлении нового пользователя: ", err)
-		return err
+		if err == sql.ErrNoRows {
+			_, err = DB.Exec("INSERT INTO schools (district, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
+			if err != nil {
+				logger.Logger.Errorln(err)
+				return err
+			}
+			logger.Logger.Infoln("Пользователь ", newUser.Name, " добавлен успешно")
+			return nil
+		} else {
+			logger.Logger.Errorln(err)
+			return err
+		}
 	}
-	logger.Logger.Infoln("Успешно добавлен новый пользователь", district, name, result)
-	return nil*/
 
-	var count int
-	err := DB.QueryRow("SELECT COUNT(*) FROM schools WHERE name = ? AND district = ?", newUser.Name, newUser.District).Scan(&count)
-	if err != nil {
-		logger.Logger.Errorln(err)
-		return err
+	if existingPassword == "empty" {
+		_, err = DB.Exec("UPDATE schools SET login = ?, password = ? WHERE district = ? AND name = ?", newUser.Login, newUser.Password, newUser.District, newUser.Name)
+		if err != nil {
+			logger.Logger.Errorln(err)
+			err = fmt.Errorf("Логин \"%s\" уже занят!", newUser.Login)
+			return err
+		}
+		logger.Logger.Infoln("Логин и пароль пользователя ", newUser.Name, " обновлены успешно")
+		return nil
 	}
-	if count > 0 {
-		logger.Logger.Errorln("Пользователь ", newUser.Name, " уже существует")
-		return fmt.Errorf("пользователь %s уже существует", newUser.Name)
 
-	}
-	_, err = DB.Exec("INSERT INTO schools (district, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
-	if err != nil {
-		log.Fatal(err)
-	}
-	logger.Logger.Infoln("Пользователь ", newUser.Name, " добавлен успешно")
-	return nil
-
+	logger.Logger.Errorln("Пользователь ", newUser.Name, " уже зарегистрирован")
+	return fmt.Errorf("Пользователь %s уже зарегистрирован!", newUser.Name)
 }

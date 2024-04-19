@@ -1,9 +1,10 @@
 let input = document.getElementById('myInput2');
-let schoolName = ''; // Изначально значение пустое
 let intervalId
 const selectElement = document.getElementById('myList');
 const radioButtons = document.querySelectorAll('input[name="rate_2"]');
 let element2 = document.getElementById("myInput2");
+
+let schoolName = ''; // Изначально значение пустое
 
 input.addEventListener('input', function () {
     schoolName = input.value;
@@ -76,39 +77,62 @@ function createSpisok() {
 
 
 function registration() {
+    let schoolName = document.getElementById('myInput2').value;
+    let selectValue = document.getElementById('myList').value;
+    let rate2Value = document.querySelector('input[name="rate_2"]:checked').value;
+    let login = document.getElementById('login').value;
+    let password = document.getElementById('password').value;
+    let password2 = document.getElementById('password2').value;
 
-    url = '/registration/reguser'
-    data = { school_name: schoolName };
+    if (password !== password2) {
+        console.error('Пароли не совпадают');
+        return;
+    }
 
-    fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    console.log(schoolName, selectValue, rate2Value, login,password,password2);
+
+    if (schoolName && selectValue && rate2Value && login && password) {
+        let data = {
+            name: schoolName,
+            district: selectValue,
+            spec: rate2Value,
+            login: login,
+            password: password
+        };
+
+        fetch('/registration/reguser', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then(response => {
-            if (response.ok) {
+            if (response.status === 200) {
                 console.log('Запрос успешно отправлен');
+                alert("Регистрация прошла успешно!");
+                window.location.href = '/'
+            } else if (response.status === 500) {
+                response.text().then(errorMessage => {
+                    console.error(errorMessage);
+                    alert(errorMessage);
+                });
             } else {
-                console.error('Произошла ошибка при отправке запроса');
+                console.error('Неожиданный статус ответа:', response.status);
             }
         })
         .catch(error => {
             console.error('Произошла ошибка при отправке запроса:', error);
+            alert('Произошла ошибка при отправке запроса. Проверьте подключение к интернету.', error);
         });
+    } else {
+        console.error('Пожалуйста, заполните все поля формы!');
+        alert('Пожалуйста, заполните все поля формы!');
+    }
 }
 
 var passwordInput = document.getElementById('password');
 var password2Input = document.getElementById('password2');
-
-passwordInput.addEventListener('input', function () {
-    this.value = this.value.replace(/./g, '*');
-});
-
-password2Input.addEventListener('input', function () {
-    this.value = this.value.replace(/./g, '*');
-});
 
 password2Input.addEventListener('input', function () {
     var passwordValue = passwordInput.value;

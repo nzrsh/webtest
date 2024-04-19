@@ -157,16 +157,14 @@ func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var newUser database.User
+
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
 	err = database.RegisterUser(newUser)
 	if err != nil {
-		http.Error(w, "Ошибка регистрации, повторите попытку позже или свяжитесь с тех. поддержкой.", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
-	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
