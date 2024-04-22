@@ -3,12 +3,6 @@ let intervalId
 const selectElement = document.getElementById('myList');
 const radioButtons = document.querySelectorAll('input[name="rate_2"]');
 let element2 = document.getElementById("myInput2");
-let loginInput = document.getElementById('login');
-let log_lab = document.getElementById("log_lab");
-let for_lab = document.getElementById("for_lab");
-
-
-let schoolName = ''; // Изначально значение пустое
 
 input.addEventListener('input', function () {
     schoolName = input.value;
@@ -82,73 +76,41 @@ function createSpisok() {
 
 
 function registration() {
-    let regButton = document.querySelector('.reg_bat');
 
-regButton.disabled = true; // Отключаем кнопку
+    url = '/registration/reguser'
+    data = { school_name: schoolName };
 
-setTimeout(function(){
-    regButton.disabled = false; // Включаем кнопку после 5 секунд
-}, 3500);
-    let schoolName = document.getElementById('myInput2').value;
-    let selectValue = document.getElementById('myList').value;
-    let login = document.getElementById('login').value;
-    let password = document.getElementById('password').value;
-    let password2 = document.getElementById('password2').value;
-
-    if (password !== password2) {
-        console.error('Пароли не совпадают');
-        return;
-    }
-
-    if (schoolName && selectValue && login.length >= 6 && password.length >= 6 && password2 === password) {
-        let data = {
-            name: schoolName,
-            district: selectValue,
-            login: login,
-            password: password
-        };
-        fetch('/registration/reguser', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Запрос успешно отправлен');
+            } else {
+                console.error('Произошла ошибка при отправке запроса');
             }
         })
-            .then(response => {
-                if (response.status === 200) {
-                    console.log('Запрос успешно отправлен');
-                    alert("Регистрация прошла успешно!");
-                    window.location.href = '/'
-                } else if (response.status === 500) {
-                    response.text().then(errorMessage => {
-                        for_lab.innerText = errorMessage;
-                        for_lab.style.display = "block";
-                        setTimeout(function(){
-                            for_lab.style.display = "none";
-                        }, 3000);
-                    });
-                } else {
-                    console.error('Неожиданный статус ответа:', response.status);
-                }
-            })
-            .catch(error => {
-                console.error('Произошла ошибка при отправке запроса:', error);
-                alert('Произошла ошибка при отправке запроса. Проверьте подключение к интернету.', error);
-            });
-    } else {
-        for_lab.innerText = "Пожалуйста, заполните все поля формы корректно!";
-        for_lab.style.display = "block";
-        setTimeout(function(){
-            for_lab.style.display = "none";
-        }, 3000);
-
-    }
+        .catch(error => {
+            console.error('Произошла ошибка при отправке запроса:', error);
+        });
 }
 
 var passwordInput = document.getElementById('password');
 var password2Input = document.getElementById('password2');
 
-password2Input.addEventListener('blur', function () {
+passwordInput.addEventListener('input', function () {
+    this.value = this.value.replace(/./g, '*');
+});
+
+password2Input.addEventListener('input', function () {
+    this.value = this.value.replace(/./g, '*');
+});
+
+password2Input.addEventListener('input', function () {
     var passwordValue = passwordInput.value;
     var password2Value = password2Input.value;
 
