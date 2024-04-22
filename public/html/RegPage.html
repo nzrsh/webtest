@@ -9,10 +9,11 @@
 
 <body>
     <img src="/public/img/background_white.jpg" class="background">
-    <div class="reg" style="min-height: 533px;">
+    <div class="reg" style="min-height: 530px; height: 50vh;">
         <!-- заголовок регистрации -->
         <div class="tit_reg"></div>
         <div id="dates">
+            <label class="remarkaForm" id="for_lab"></label>
             <label for="myInput"> 1. Выберите район:</label>
             <select id="myList">
                 <option value="Башмаковский район ОО" >Башмаковский район</option>
@@ -47,25 +48,33 @@
                 <option value="Шемышейский район УО">Шемышейский район</option>
                 <option value="Учреждения интернатного типа">Учреждения интернатного типа</option>
             </select>
-            <p style="margin-top: 7%;">2. Выберите тип учереждения:</p>
-            <div class="radiobutton" style="margin-top: 2%; font-size: 17px;"><input id="one" name="rate_2" type="radio"
+            <p style="margin-top: 7%; display: none;" >2. Выберите тип учереждения:</p>
+            <div class="radiobutton" style="margin-top: 2%; font-size: 17px; display: none;" ><input id="one" name="rate_2" type="radio"
                     value="child"><label for='one'> Школа</label></div>
-            <div class="radiobutton" style="font-size: 17px;"><input id="two" name="rate_2" type="radio"
+            <div class="radiobutton" style="font-size: 17px; display: none;" ><input id="two" name="rate_2" type="radio"
                     value="student"><label for='two'> СПО</label></div>
-            <label for="myInput2"> 3. Выберите учереждение:</label>
+                <div style="margin-top: 2%;">
+            <label for="myInput2" > 2. Выберите учереждение:</label>
             <input type="text" id="myInput2" list="myList2" style="margin-top: 7%;" disabled>
             <datalist id="myList2">
             </datalist>
-            <p id="t">4. Придумайте логин и пароль</p>
+        </div>
+            <p id="t">3. Придумайте логин и пароль (Только символы латинского алфавита)</p>
+            <div class ="d_p">
+                <label for="password2" class="remarka" id="log_lab">я устал</label>
             <input class="reg_input_area" id="login" type="text" name="login" placeholder="Введите логин" />
+        </div>
+        <div class ="d_p">
+            <label for="password2" class="remarka" id="pas_lab1">я устал</label>
             <input class="reg_input_area" id="password" type="text" name="password" placeholder="Введите пароль" />
+        </div>
             <div class ="d_p">
                 <label for="password2" class="remarka" id="pas_lab">я устал</label>
                 <input class="reg_input_area" id="password2" type="text" name="password"
                     placeholder="Подтвердите пароль" />
             </div>
         </div>
-        <button class="reg_bat" onclick="registration()">Зарегистрироваться</button>
+        <button class="reg_bat" onclick="registration()" style="padding-bottom: 2%; padding-top: 2%; margin: 2%; margin-left: 6%;">Зарегистрироваться</button>
         <script src="/public/js/RegPageScript.js">
         </script>
 </body>
