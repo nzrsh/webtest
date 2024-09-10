@@ -58,6 +58,10 @@ function goToReg(){
   window.location.href = '/registration';
 }
 
+function goToTech(){
+  window.location.href = '/techsupport'
+}
+
 function showDiv() {
   var div = document.getElementById('infWindow');
   div.style.display = 'block';

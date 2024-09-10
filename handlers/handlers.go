@@ -168,3 +168,7 @@ func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+func TechSupport(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	http.ServeFile(w, r, "public/html/TechPage.html")
+}

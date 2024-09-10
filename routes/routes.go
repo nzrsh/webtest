@@ -40,5 +40,5 @@ func SetupRoutes(router *httprouter.Router) {
 	router.GET("/studenttest/name", handlers.StudentName)
 	router.GET("/.well-known/acme-challenge/:filename", handlers.MyTlsFiles)
 	router.GET("/getres", handlers.GetRes)
-	//router.POST("/techsupport", handlers.GetMessage)
+	router.GET("/techsupport", handlers.TechSupport)
 }
