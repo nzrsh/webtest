@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Добро пожаловать</title>
+</head>
+<body>
+    <img src="/public/img/background_white.jpg" class="background">
+    <div class="header">
+        <span id="org"><img src="/public/img/OrgImg.jpg" class="orgImg"><p class="orgText">Институт регионального развития</p></span>
+        <table>
+            <tr> 
+              <td id="orgTest" onmouseover="showDiv()" onmouseout="hideDiv()">Количество прошедших тест<div id="infWindow"><p class="resSchool">Общее количество:</p><p class="resSchool">Группа А:</p><p class="resSchool">Группа Б:</p></div></td>
+              <td style="display:none" id ="feedback" onmouseover="showForm()">Форма обратной связи<div id ="fd"><div id = "feedform"><div class="tit" style="border-radius: 25px 25px 0px 0px;"><buttom class="close" onclick="closeForm()"><img src="/public/img/crest.png" class="closeImg"></buttom></div><form action="authenticate" method="POST" enctype="application/x-www-form-urlencoded" onsubmit="trimInput()">
+                <input class="feedInput" type="text" name="login" placeholder="Введите имя" />
+                <input class="feedInput" type="text" name="password" placeholder="Введите номер телефона"/>
+                <input class="feedInput" type="text" name="login" placeholder="Введите эл. почту" />
+                <input class="feedInputProblem" type="text" name="password" placeholder="Описание проблемы..."/>
+                <input class="reg_baton" style="font-size: 25px; padding-top: 2%; padding-bottom: 5%;" type="submit" value="Отправить" />
+            </form></div></div></td>
+            </tr>
+          </table>
+    </div>
+    <div class="welcome"><div class = "tit"></div>
+    <div class="welcome_text">Автоматизированная технология объективной 
+        мониторинговой оценки и индивидуальной диагностики значимых для воспитания 
+        и профессионально-личностного развития общих компетенций студентов организаций 
+        среднего профессионального образования, расположенных на территории Пензенской 
+        области, в соответствии с ФГОС СПО 3+. <br><br>Коллектив авторов под руководством Климина С.В.:
+        зам. директора Экспертного центра оценки и обеспечения качества образования 
+        ООО «Российское профессорское собрание».
+        <br>
+        <br> <br>Материалы диагностики проэкспертированы 
+        в учреждениях, подведомственных Рособрнадзору и Российской академии образования.
+    </div>
+    <form action="/studenttest/name" class="welcome_form" style="margin-top: 1.5%;">
+        <button type="submit" class="welcome_baton" style="margin-top: 4%;">Приступить к тесту</button>
+    </form>
+        <button class="get_result" onclick="getResult()">Получить результаты</button>
+    </div>
+</form>
+<script src="/public/js/WelcomePageScript.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Поле ввода со списком</title>
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon"><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+</head>
+
+<body>
+    <img src="/public/img/background_white.jpg" class="background">
+    <div class="reg" style="min-height: 530px; height: 50vh;">
+        <!-- заголовок регистрации -->
+        <div class="tit_reg"></div>
+        <div id="dates">
+            <label class="remarkaForm" id="for_lab"></label>
+            <label for="myInput"> 1. Выберите муниципалитет:</label>
+            <select id="myList">
+                <option value="Министерство образования (подведомственные)">Министерство образования</option>
+                <option value="Город Пенза УО">Город Пенза</option>
+                <option value="Город Заречный ДО">Город Заречный</option>
+                <option value="Город Кузнецк УО">Город Кузнецк</option>
+                <option value="Башмаковский район ОО" >Башмаковский район</option>
+                <option value="Бековский район УО" >Бековский Район</option>
+                <option value="Белинский район ОО" >Белинский район</option>
+                <option value="Бессоновский район УО" >Бессоновский район</option>
+                <option value="Вадинский район ОО">Вадинский район</option>
+                <option value="Городищенский район ОО">Городищенский район</option>
+                <option value="Земетчинский район ОО">Земетчинский район</option>
+                <option value="Иссинский район УО">Иссинский район</option>
+                <option value="Каменский район УО">Каменский район</option>
+                <option value="Камешкирский район ОО">Камешкирский район</option>
+                <option value="Колышлейский район ОО">Колышлейский район</option>
+                <option value="Кузнецкий район ОО">Кузнецкий район</option>
+                <option value="Лопатинский район ОО">Лопатинский район</option>
+                <option value="Лунинский район ОО">Лунинский район</option>
+                <option value="Малосердобинский район УО">Малосердобинский район</option>
+                <option value="Мокшанский район УО">Мокшанский район</option>
+                <option value="Наровчатский район ОО">Наровчатский район</option>
+                <option value="Неверкинский район ОО">Неверкинский район</option>
+                <option value="Нижнеломовский район УО">Нижнеломовский район</option>
+                <option value="Никольский район УО">Никольский район</option>
+                <option value="Пачелмский район ОО">Пачелмский район</option>
+                <option value="Пензенский район ОО">Пензенский район</option>
+                <option value="Сердобский район ОО">Сердобский район</option>
+                <option value="Сосновоборский район ОО">Сосновоборский район</option>
+                <option value="Спасский район ОО">Спасский район</option>
+                <option value="Тамалинский район ОО">Тамалинский район</option>
+                <option value="Шемышейский район УО">Шемышейский район</option>                
+            </select>
+            <p style="margin-top: 7%; display: none;" >2. Выберите тип учреждения:</p>
+            <div class="radiobutton" style="margin-top: 2%; font-size: 17px; display: none;" ><input id="one" name="rate_2" type="radio"
+                    value="child"><label for='one'> Школа</label></div>
+            <div class="radiobutton" style="font-size: 17px; display: none;" ><input id="two" name="rate_2" type="radio"
+                    value="student"><label for='two'> СПО</label></div>
+                    <br>
+                    <br>
+                <div style="margin-top: 2%;">
+                    <label for="myInput2">2. Выберите учреждение:</label>
+                    <select id="myList2" disabled>
+                        <option value="">Выберите школу</option>
+                    </select>
+            <datalist id="myList2">
+            </datalist>
+        </div>
+            <p id="t">3. Придумайте логин и пароль (Только символы латинского алфавита)</p>
+            <div class ="d_p">
+                <label for="password2" class="remarka" id="log_lab">я устал</label>
+            <input class="reg_input_area" id="login" type="text" name="login" placeholder="Введите логин" />
+        </div>
+        <div class ="d_p">
+            <label for="password2" class="remarka" id="pas_lab1">я устал</label>
+            <input class="reg_input_area" id="password" type="text" name="password" placeholder="Введите пароль" />
+        </div>
+            <div class ="d_p">
+                <label for="password2" class="remarka" id="pas_lab">я устал</label>
+                <input class="reg_input_area" id="password2" type="text" name="password"
+                    placeholder="Подтвердите пароль" />
+            </div>
+        </div>
+        <button class="reg_bat" onclick="registration()" style="padding-bottom: 2%; padding-top: 2%; margin: 2%; margin-left: 6%;">Зарегистрироваться</button>
+        <script src="/public/js/RegPageScript.js">
+        </script>
+</body>
+
+</html>

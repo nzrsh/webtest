@@ -1,0 +1,965 @@
+﻿.welcome{
+  width: 80vw;
+  min-width: 1000px;
+  height: 80vh;
+  min-height: 770px;
+  max-height: 1000px;
+  display: block;
+  box-shadow: 5px 3px 6px 2px gray;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 1);
+  box-sizing: border-box;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 3vh;
+  position: relative;
+  padding-bottom: 1%;
+}
+
+#infWindow{
+  background-color: aliceblue;
+  border: 3px solid ;
+  border-color: rgb(52, 69, 168);
+  border-radius: 30px;
+  width: 35vh;
+  min-width: 350px;
+  height: 16vh;
+  min-height: 170px;
+  top: 75px;
+  left: 40%;
+  position: absolute;
+  z-index: 900;
+  display: none;
+}
+
+.resSchool{
+  text-align: left;
+  margin-left: 4%;
+  display: none;
+  color: #000;
+}
+
+.resSchool{
+  display: inline ;
+}
+
+.orgText{
+  position: absolute;
+  box-sizing: border-box;
+  width: 80%;
+  top: 30%;
+  margin-left: 3%;
+  text-align: left;
+  font-size: 25px;
+  margin-top: 0px;
+  display: inline;
+}
+
+.orgImg{
+  height: 57px;
+  margin-left: 15%;
+  margin-top: 0.75%;
+  margin-bottom: 20px;
+  border-radius: 55px;
+}
+
+#myList2 {
+width: 250px; /* Установите фиксированную ширину */
+white-space: nowrap; /* Запрещает перенос текста */
+overflow-x: auto; /* Добавляет горизонтальную прокрутку */
+}
+
+#org{
+  color: aliceblue;
+  height: 67px;
+  width: 40%;
+  border-radius: 0px 0px 0px 70px;
+  position: absolute;
+}
+
+.header{
+  min-width: 1255px;
+  width: 100%;
+  height: 67px;
+  background-color: rgb(52, 69, 168);
+  border-radius: 0px 0px 70px 70px;
+  border: #A6114D;
+  position: relative;
+  display: block;
+}
+
+table {
+  z-index: 900;
+  margin: 0 auto;
+  margin-left: 35%;
+  border-collapse: collapse; 
+  width: 50%; 
+}
+
+td {
+  margin: 1%;
+  padding: 20px;
+  text-align: center; 
+  border: 1px solid black;
+  border: 0px;
+  color: rgb(207, 215, 221);
+  font-size: 25px;
+
+}
+
+td:hover {
+  transition: 0.4s;
+  color: aliceblue;
+  border-radius: 30px;
+  background-color:rgb(62, 83, 202);
+}
+
+#fd{
+  display: none;
+  z-index: 999;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left:0%;
+  top:0%;
+  background-color: rgb(68, 68, 68,0.6);
+}
+
+#feedform{
+  display: block;
+  z-index: 910;
+  position: absolute;
+  width: 60vw;
+  min-width: 750px;
+  height: 70vh;
+  min-height: 680px;
+  left:20%;
+  top:10%;
+  background-color: aliceblue;
+  border: 2px solid;
+  border-color: rgb(62, 83, 202);
+  border-radius: 30px;
+}
+
+.feedInput{
+  display: block;
+  font-size: 15px;
+  border: 0px;
+  border-bottom: 1px solid rgb(160, 155, 155);
+  width: 35%;
+  height: 10%;
+  margin: 2%;
+  margin-left: 3%;
+  background-color: aliceblue;
+}
+
+.feedeInput:focus {
+  outline: none;
+  border-bottom-color: blue;
+}
+
+.feedInput:focus::placeholder
+{
+  
+ border: 0px;
+ color:  rgb(173, 173, 255);
+}
+
+.feedInputProblem{
+  display: block;
+  font-size: 20px;
+  border: 1px solid rgb(160, 155, 155);
+  border-radius: 10px;
+  width: 82%;
+  height: 60%;
+  margin: 2%;
+  margin-left: 3%;
+  padding-bottom: 20%;
+  background-color: aliceblue;
+  background-color: rgb(235, 242, 248);
+}
+
+.close{
+  position: absolute;
+  right: 0.5%;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  z-index: 911;
+}
+
+.close:hover{
+  background-color: rgba(155, 155, 155,0.6);
+  border: 0px solid;
+  border-radius: 30px;
+  transition: 0.4s;
+}
+
+.closeImg{
+  width: 35px;
+  height: 35px;
+}
+
+.welcome_text{
+  font-size: 30px;
+  margin: 3%;
+  margin-bottom: 0;
+}
+
+.tit{
+  z-index: 911;
+  padding: 1%;
+  padding-bottom: 0;
+  text-align: center;
+  font-size: 34px;
+  color: aliceblue;
+  border-radius: 30px 30px 0px 0px;
+  width: 98%;
+  min-height: 64px;
+  height: 8%;
+  max-height: 80px;
+  background-color: rgb(78, 104, 255);
+}
+
+.welcome_form{
+  margin-top: 8%;
+  margin-left: 25%;
+  margin-right: 25%;
+  display: block;
+}
+
+.welcome_baton{
+  margin-top: 2%;
+  transition: 0.4s;
+  margin-left: 15%;
+  width: 70%;
+  height: 60px;
+  font-size: 25px;
+  border-radius: 30px;
+  border: 0px;
+  background-color: rgb(78, 104, 255);
+  color: aliceblue;
+  cursor: pointer;
+}
+
+.welcome_baton:hover{
+  color: rgb(115, 136, 255);
+  border: 1px solid;
+  background-color: aliceblue;
+  transition: 0.4s ;
+}
+
+.welcome_baton:active{
+  background-color: rgb(205, 214, 219);
+}
+
+.get_result{
+  margin-top: 2%;
+  transition: 0.4s;
+  margin-left: 32.75%;
+  width: 35%;
+  height: 60px;
+  font-size: 25px;
+  border-radius: 30px;
+  border: 0px;
+  background-color: #A6114D;
+  color: aliceblue;
+  cursor: pointer;
+}
+
+.get_result:hover{
+  color: #A6114D;
+  border: 1px solid;
+  background-color: aliceblue;
+  transition: 0.4s ;
+}
+
+.get_result:active{
+  background-color: rgb(205, 214, 219);
+}
+
+
+.test{
+    margin-left: 10vw;
+    margin-right: 10vw;
+    position: relative;
+    box-sizing: border-box;
+    width: 80vw;
+    min-width: 1000px;
+    height: 93vh;
+    min-height: 800px;
+    max-height: 1000px;
+    display: flex;
+    padding: 3%;
+}
+
+
+img.background {
+    min-height: 1000px;
+    min-width: 1300px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#group1{
+  min-height: 170px;
+  height: 16vh;
+  max-height: 210px;
+  font-size: 20px;
+  border: 0px;
+  margin-left: 1% ;
+  width: 90%;
+  font-weight: bold;
+}
+
+
+#group2{
+    margin-left: 3.9%;
+    font-size: 20px;
+    width: 94%;
+    border: 0px;
+}
+
+div#rates {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2%;
+  padding-left:15%;
+} 
+
+/* span.radiobuttom3 {
+  flex-grow: 1;
+  margin-right: 10px; /* Расстояние между кнопками 
+} */
+
+span.radiobuttom3:last-child {
+  margin-right: 0; /* Убираем правый отступ у последней кнопки */
+}
+
+.quest{
+    font-weight: bold;
+    padding: 2%;
+    display: flex;
+    width: 95%;
+    min-width: 902.5px;
+    margin: 3%;
+    position: relative;
+    box-sizing: border-box;
+    height: 10%;
+    max-height: 95px;
+    font-size: 30px;
+    border-radius: 29px;
+    margin-top: 0px;
+    margin-bottom: 1%;
+}
+
+.text{
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    width: 110vw;
+    height: 70%;
+}
+
+.answer{
+    position: relative;
+    padding: 1%;
+    display: flex;
+    width: 95% ;
+    min-width: 855px;
+    box-sizing: border-box;
+    margin: 3%;
+    margin-top: 9%;
+    height: 20%;
+    max-height: 190px;
+    box-shadow: 5px 3px 6px 2px gray;
+    font-size: 30px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+body{
+  -webkit-user-select: none; /* Запрещает выделение текста в браузерах WebKit */
+  -moz-user-select: none; /* Запрещает выделение текста в браузерах Mozilla */
+  -ms-user-select: none; /* Запрещает выделение текста в браузерах Internet Explorer/Edge */
+  user-select: none; /* Запрещает выделение текста во всех современных браузерах */
+
+    margin: 0px;
+    text-align: justify;
+}
+
+.podskazka{
+    margin: 3%;
+    margin-top: 0%;
+    padding: 1%;
+    width: 94%;
+    min-width: 900px;
+    height: 20%;
+    min-height: 117px;
+    max-height: 190px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+}
+
+.quest_title{
+
+    margin-bottom: 1%;
+    padding: 1%;
+    width: 98%;
+    height: 5%;
+    text-align: center;
+    font-size: 30px;
+    color: aliceblue;
+    border-radius: 30px 20px 0px 0px;
+    background-color: rgb(78, 104, 255);
+}
+
+.main{
+    box-shadow: 5px 3px 6px 2px gray;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    width: 99vw;
+    min-width: 940px;
+    height: 85vh;
+    min-height: 730px;
+    max-height: 950px;
+    margin-bottom: 0px;
+}
+
+.radiobutton {
+    transition: 0.4s;
+    margin: 3%;
+    text-align: left;
+    display: block;
+    width: 100%;
+  }
+  
+  .radiobutton input[type="radio"] {
+    display: none;
+  }
+  
+  .radiobutton label {
+    display: inline-block;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+  }
+  
+  .radiobutton label:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-radius: 25%;
+  }
+
+  .radiobutton label:hover:before{
+    background-color: rgb(147, 163, 255);
+    transition: 0.2s
+  }
+  
+  .radiobutton input[type="radio"]:checked + label:before {
+    border-radius: 50%;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+  }  
+  
+  .radiobutton label span {
+    margin-left: 30px;
+  }
+  
+  #group2 {
+    display: flex;
+    align-items: center;
+  }
+
+  #group3 {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border: 0;
+    
+  }
+  
+  .radiobuttom2 {
+    transition: 0.4s;
+    margin-right: 200px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .radiobuttom2 input[type="radio"] {
+    display: none;
+  }
+  
+  .radiobuttom2 label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 23px;
+  }
+  
+  .radiobuttom2 label:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-radius: 25%;
+  }
+
+  .radiobuttom2 label:hover:before{
+    background-color: rgb(147, 163, 255);
+    transition: 0.2s
+  }
+  
+  .radiobuttom2 input[type="radio"]:checked + label:before {
+    border-radius: 50%;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+  }
+
+
+  .radiobuttom3 {
+    transition: 0.4s;
+    margin: 3%;
+    text-align: left;
+    display: block;
+    width: 100%;
+  }
+  
+  .radiobuttom3 input[type="radio"] {
+    display: none;
+  }
+  
+  .radiobuttom3 label {
+    font-size: 25px;
+    display: inline-block;
+    position: relative;
+    padding-left: 40px;
+    cursor: pointer;
+    font-style: bold;
+  }
+  
+  .radiobuttom3 label:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-radius: 25%;
+  }
+
+  .radiobuttom3 label:hover:before{
+    background-color: rgb(147, 163, 255);
+    transition: 0.4s
+  }
+  
+  .radiobuttom3 input[type="radio"]:checked + label:before {
+    border-radius: 50%;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+  }  
+  
+.baton{
+  color: aliceblue;
+    font-size: 17px;
+    transition: 0.4s;
+    transition-delay: 0.4;
+    position: absolute;
+    background-color:rgb(78, 104, 255);
+    border: 0px;
+    border-radius: 30px;
+    min-width: 100px;
+    margin-right: 0px;
+    height: 5vh;
+    min-height: 43px;
+    width: 40%;
+    margin: 3%;
+    top: 83%;
+    left: 26.5%;
+    cursor: pointer;
+}
+
+.baton:hover{
+    color: rgb(115, 136, 255);
+    border: 1px solid;
+    background-color: aliceblue;
+    transition: 0.4s ;
+}
+
+.baton:active{
+    background-color: rgb(205, 214, 219);
+}
+
+
+.reg{
+  margin: 20vh 37vw 20vh 37vw; 
+  width: 26vw;
+  min-width: 425px;
+  height: 55vh;
+  min-height: 470px;
+  border-radius: 30px;
+  box-shadow: 5px 3px 6px 2px gray;
+  background-color: white;
+  position: absolute;
+}
+
+.tit_reg{
+    box-sizing: border-box;
+    font-size: 30px;
+    width: 26vw;
+    min-width: 425px;
+    height: 15%;
+    min-height: 72px;
+    border: 0px solid;
+    text-align: center;
+    background-color: rgb(78, 104, 255);
+    padding: 5%;
+    border-radius: 30px 30px 2px 2px;
+    color: aliceblue;
+}
+
+.input_area{
+
+    font-size: 20px;
+    border: 0px;
+    border-bottom: 1px solid rgb(160, 155, 155);
+    width: 82%;
+    height: 20%;
+    margin: 2%;
+    margin-left: 6%;
+    padding-bottom: 1%;
+    padding-top: 10%;
+}
+
+.input_area:focus {
+  outline: none;
+  border-bottom-color: blue;
+}
+
+.input_area:focus::placeholder
+{
+ color:  rgb(173, 173, 255);
+}
+
+#reg_text{
+  font-size: 17px;
+  color: #757575;
+  text-align: center;
+}
+
+.reg_baton{
+  font-size: 23px;
+    transition: 0.4s;
+    box-sizing: border-box;
+    border: 0000.1px;
+    width: 86%;
+    height: 6vh;
+    min-height: 48px;
+    margin: 6%;
+    border-radius: 30px;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.reg_baton:hover{
+    color: rgb(115, 136, 255);
+    border: 1px solid;
+    background-color: aliceblue;
+    transition: 0.4s ;
+}
+
+.reg_baton:active{
+    background-color: rgb(205, 214, 219);
+}
+
+.reg2{
+    padding: 1%;
+    margin: 28vh 36vw 42vh 36vw; 
+    width: 500px;
+    height: 25 0px;
+    border-radius: 30px;
+    box-shadow: 5px 3px 6px 2px gray;
+    background-color: rgba(255, 255, 255);
+    position: absolute;
+}
+
+.end{
+  background-color: white;
+    box-sizing: border-box;
+    margin: 39vh 37vw 41vh 37vw; 
+    width: 500px;
+    height: 280px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 4%;
+    border-radius: 30px;
+    box-shadow: 5px 3px 6px 2px gray;
+    position: absolute;
+}
+
+
+@media screen and (max-width: 1700px) {
+    .podskazka {
+      font-size: 16px; 
+    }
+
+    .answer{
+        font-size: 20px;
+        font-weight:bold;
+    }
+
+    .quest{
+        font-size: 25px;
+        padding: 1%;
+    }
+    #group1{
+      font-size: 20px;
+    }
+  }
+  
+  @media screen and (min-width: 1701px) and (max-width: 1700px) {
+    .podskazka {
+      font-size: 17px; 
+    }
+
+    .answer{
+        font-size: 20px;
+    }
+
+    .quest{
+        font-size: 31px;
+    }
+    #group1{
+      font-size: 11px;
+    }
+  }
+
+  @media screen and (min-width: 1701px) {
+    .podskazka {
+      font-size: 19px; 
+    }
+
+    .answer{
+        font-size: 22px;
+    }
+
+    .quest{
+        font-size: 32px;
+    }
+    #group1{
+      font-size: 22px;
+    }
+  }
+
+  @media screen and (max-width: 1700px) {
+    .welcome{
+      margin-top: 5vh
+    }
+    .welcome_text{
+      font-size: 30px;
+    }
+  }
+
+  @media screen and (max-width: 1580px) {
+    table{
+      margin-left: 40%
+    }
+    .infWindow{
+      left:45%;
+    }
+
+  }
+  @media screen and (max-width: 1300px) {
+    table{
+      margin-left: 45%
+    }
+    .infWindow{
+      left:50%;
+    }
+
+    .remarkaForm{
+      font-size: 15px;
+    }
+  }
+
+  ul {
+    width: 90%;
+    margin-left: 5%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  ul li {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 28px;
+  }
+  
+  ul li a {
+    transition: 0.4s;
+    text-decoration: none;
+    color: rgb(78, 104, 255);
+  }
+  
+  ul li a:hover {
+
+    color: aliceblue;
+    background-color: rgb(78, 104, 255);
+    transition: 0.4s;
+    border-radius: 25px;
+    padding: 10px;
+
+  }
+  
+  ul li a:active {
+    background-color: rgb(205, 214, 219);
+  }
+
+  .test_page{
+    box-sizing: border-box;
+    padding: 3%;
+    margin: 35vh 36vw 42vh 36vw; 
+    width: 26vw;
+    min-width: 490px;
+    max-width: 500px;
+    max-height: 200px;
+    height: 0vh;
+    min-height: 200px;
+    border-radius: 30px;
+    box-shadow: 5px 3px 6px 2px gray;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+  }
+
+  .stepen{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    margin-left: 5%;
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+  }
+
+  #dates{
+    margin: 6%;
+    margin-bottom: 2%;
+  }
+
+  .reg_input_area{
+
+    font-size: 15px;
+    border: 0px;
+    border-bottom: 1px solid rgb(160, 155, 155);
+    width: 62%;
+    height: 8%;
+    margin: 2%;
+    margin-top: 4%;
+    margin-left: 3%;
+    padding-top: 1%;
+}
+
+.reg_input_area:focus {
+  outline: none;
+  border-bottom-color: blue;
+}
+
+.reg_input_area:focus::placeholder
+{
+ color:  rgb(173, 173, 255);
+}
+
+.reg_bat{
+  font-size: 20px;
+    transition: 0.4s;
+    box-sizing: border-box;
+    border: 0000.1px;
+    width: 86%;
+    height: 3vh;
+    min-height: 48px;
+    margin: 6%;
+    margin-top: 1%;
+    padding: 4%;
+    border-radius: 30px;
+    background-color: rgb(78, 104, 255);
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.reg_bat:hover{
+    color: rgb(115, 136, 255);
+    border: 1px solid;
+    background-color: aliceblue;
+    transition: 0.4s ;
+}
+
+.reg_bat:active{
+    background-color: rgb(205, 214, 219);
+}
+
+#t{
+  margin-bottom: 0px;
+  margin-top: 7%;
+}
+
+.remarka{
+  display: none;
+  color: #A6114D;
+  position: absolute;
+  left: 3%;
+  bottom: -7px;
+  font-size: 13px;
+}
+
+.remarkaForm{
+  width: 90%;
+  margin-left: 0%;
+  text-align: center;
+  bottom: 2%;
+   font-size: 20px;
+   padding-right: 2%;
+  display: none;
+  color: #A6114D;
+  position: absolute;
+}
+
+
+
+.d_p{
+  position: relative;
+}
+
+.fade-in-out {
+  animation: fadeInOut 3s forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+      opacity: 0;
+  }
+  10% {
+      opacity: 1;
+  }
+  90% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
