@@ -23,11 +23,13 @@ func main() {
 	router := httprouter.New()
 	router.ServeFiles("/public/*filepath", http.Dir("./public"))
 	routes.SetupRoutes(router)
-	logger.Info("Запускаю HTTP сервер сертификации...")
-	err = http.ListenAndServe(":8080", router)
-	if err != nil {
-		logger.Fatalln("Ошибка: ", err)
-	}
+	go func() {
+		logger.Info("Запускаю HTTP сервер сертификации...")
+		err = http.ListenAndServe(":8080", router)
+		if err != nil {
+			logger.Fatalln("Ошибка: ", err)
+		}
+	}()
 
 	//Начало HTTPS
 
@@ -70,3 +72,5 @@ func main() {
 func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
 }
+
+//Это HTTP
