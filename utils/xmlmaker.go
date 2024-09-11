@@ -46,7 +46,7 @@ func MakeDirAndXmlChild(user database.SchoolUser) error {
 	if err != nil {
 		return err
 	}
-	logger.Logger.Infoln(user.ID, user.District, user.Name, user, user.Group, "Данные пользователя сформированы успешно")
+	logger.Logger.Infoln(user.ID, user.District, user.Name, user.Username, user.Group, "Данные пользователя сформированы успешно")
 	return nil
 }
 
@@ -145,7 +145,7 @@ func MakeDirAndXmlStudent(user database.SchoolUser) error {
 		return err
 	}
 
-	logger.Logger.Infoln(user.ID, user.District, user.Name, user, user.Group, "Данные пользователя сформированы успешно")
+	logger.Logger.Infoln(user.ID, user.District, user.Name, user.Username, user.Group, "Данные пользователя сформированы успешно")
 	return nil
 }
 

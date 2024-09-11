@@ -34,13 +34,12 @@
 
                 <p>Выберите тип учреждения:
 
-                    <input type="radio" id="schoolRadio" name="institutionType" value="school">
+                    <input type="radio" id="schoolRadio" name="institutionType" value="child">
                     <label for="schoolRadio">Школа</label>
 
-                    <input type="radio" id="spoRadio" name="institutionType" value="spo">
+                    <input type="radio" id="spoRadio" name="institutionType" value="student">
                     <label for="spoRadio">СПО</label>
                 </p>
-
 
                 <!-- Выбор школы/колледжа -->
                 <p>
@@ -72,18 +71,43 @@
                     <textarea id="messageInput" name="message" rows="4" placeholder="Опишите вашу проблему"></textarea>
                 </p>
                 <p>
+
                     <button type="submit">Отправить</button>
                 </p>
             </form>
         </div>
         <style>
             textarea {
-                min-height: 100%;
+                min-height: 150px;
                 min-width: 100%;
-                
+                resize: none;
                 /* Разрешаем изменять только высоту */
             }
+
+            button:hover {
+                color: rgb(78, 104, 255);
+                border: 1px solid;
+                background-color: aliceblue;
+                transition: 0.4s;
+            }
+
+            button {
+                font-size: 23px;
+                transition: 0.4s;
+                box-sizing: border-box;
+                border: 0000.1px;
+                width: 30%;
+                height: 3vh;
+                min-height: 48px;
+                margin-left: 71%;
+                border-radius: 30px;
+                background-color: rgb(78, 104, 255);
+                color: aliceblue;
+                cursor: pointer;
+            }
         </style>
+
+        <!-- Скрипт перемещён сюда -->
         <script src="/public/js/techsupportscript.js"></script>
 </body>
 

@@ -1,96 +1,143 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let districtSelect = document.getElementById('districtSelect');
-    let institutionSelect = document.getElementById('institutionSelect');
-    let institutionTypeRadios = document.querySelectorAll('input[name="institutionType"]');
-    let schools = []; // Будет хранить данные школ и СПО
+document.addEventListener('DOMContentLoaded', function () {
+    let schools = [];
+    let selectedInstitutionType = null;
 
-    // Запрос данных о школах/СПО
-    fetch('/registration/regme')
-        .then(response => response.json())
-        .then(data => {
-            schools = data;
-            populateDistricts(schools);
-        })
-        .catch(error => {
-            console.error('Ошибка при загрузке данных:', error);
-        });
-
-    // Заполняем список районов
-    function populateDistricts(schools) {
-        let districts = [...new Set(schools.map(school => school.district))];
-        districts.forEach(district => {
-            let option = document.createElement('option');
-            option.value = district;
-            option.text = district;
-            districtSelect.appendChild(option);
-        });
-    }
-
-    // Активируем выбор учреждений после выбора района и типа
-    districtSelect.addEventListener('change', enableInstitutionSelect);
-    institutionTypeRadios.forEach(radio => radio.addEventListener('change', enableInstitutionSelect));
-
-    function enableInstitutionSelect() {
-        let selectedDistrict = districtSelect.value;
-        let selectedInstitutionType = document.querySelector('input[name="institutionType"]:checked')?.value;
-
-        if (selectedDistrict && selectedInstitutionType) {
-            populateInstitutions(selectedDistrict, selectedInstitutionType);
-            institutionSelect.disabled = false;
-        }
-    }
-
-    // Заполняем список школ/СПО в зависимости от района и типа
-    function populateInstitutions(district, institutionType) {
-        institutionSelect.innerHTML = '<option value="" selected disabled>Выберите учреждение</option>';
-        schools
-            .filter(school => school.district === district && school.type === institutionType)
-            .forEach(school => {
-                let option = document.createElement('option');
-                option.value = school.name;
-                option.text = school.name;
-                institutionSelect.appendChild(option);
+    // Функция для загрузки данных
+    function loadSchools() {
+        fetch('/registration/regme')
+            .then(response => response.json())
+            .then(data => {
+                schools = data;
+                populateDistricts(schools);
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);
             });
     }
 
-    // Проверка перед отправкой формы
-    document.getElementById('feedbackForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+    // Заполняем список районов
+    function populateDistricts(schools) {
+        const districtSelect = document.getElementById('districtSelect');
+        const districts = [...new Set(schools.map(school => school.district))];
 
-        let name = document.getElementById('nameInput').value;
-        let phone = document.getElementById('phoneInput').value;
-        let email = document.getElementById('emailInput').value;
-        let message = document.getElementById('messageInput').value;
+        districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
 
-        if (!phone && !email) {
-            alert('Пожалуйста, укажите либо телефон, либо почту.');
+        districtSelect.disabled = false;
+    }
+
+    // Функция фильтрации учреждений
+    function filterInstitutions() {
+        const selectedDistrict = document.getElementById('districtSelect').value;
+        const institutionSelect = document.getElementById('institutionSelect');
+        institutionSelect.innerHTML = '';
+
+        if (!selectedDistrict || !selectedInstitutionType) {
             return;
         }
 
-        let formData = {
-            district: districtSelect.value,
-            institution: institutionSelect.value,
-            name: name,
-            phone: phone,
-            email: email,
-            message: message
+        const filteredInstitutions = schools.filter(school => school.district === selectedDistrict && school.spec === selectedInstitutionType);
+
+        if (filteredInstitutions.length === 0) {
+            const noOptions = document.createElement('option');
+            noOptions.value = "";
+            noOptions.textContent = "Нет доступных учреждений";
+            institutionSelect.appendChild(noOptions);
+        } else {
+            filteredInstitutions.forEach(institution => {
+                const option = document.createElement('option');
+                option.value = institution.name;
+                option.textContent = institution.name;
+                institutionSelect.appendChild(option);
+            });
+        }
+
+        institutionSelect.disabled = filteredInstitutions.length === 0;
+    }
+
+    // Валидация полей
+    function validateForm() {
+        const name = document.getElementById('nameInput').value.trim();
+        const phone = document.getElementById('phoneInput').value.trim();
+        const email = document.getElementById('emailInput').value.trim();
+        const message = document.getElementById('messageInput').value.trim();
+        const institution = document.getElementById('institutionSelect').value;
+
+        if (!name || !message || !institution) {
+            alert('Заполните все обязательные поля: имя, учреждение и сообщение.');
+            return false;
+        }
+
+        if (!phone && !email) {
+            alert('Заполните хотя бы одно поле: телефон или электронную почту.');
+            return false;
+        }
+
+        return true;
+    }
+
+    // Отправка данных
+    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = {
+            district: document.getElementById('districtSelect').value,
+            institutionType: selectedInstitutionType,
+            institution: document.getElementById('institutionSelect').value,
+            name: document.getElementById('nameInput').value,
+            phone: document.getElementById('phoneInput').value,
+            email: document.getElementById('emailInput').value,
+            message: document.getElementById('messageInput').value,
         };
 
-        fetch('/feedback/submit', {
+        console.log('Отправка данных:', formData);
+
+        fetch('/techsupport/sendmessage', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
         })
             .then(response => {
                 if (response.ok) {
                     alert('Сообщение успешно отправлено!');
-                    location.reload();
+                    document.getElementById('feedbackForm').reset(); // Очистка формы
                 } else {
-                    throw new Error('Ошибка при отправке сообщения');
+                    alert('Ошибка при отправке сообщения. Попробуйте позже.');
                 }
             })
             .catch(error => {
-                alert('Ошибка при отправке сообщения: ' + error.message);
+                console.error('Ошибка при отправке данных:', error);
+                alert('Ошибка при отправке сообщения. Попробуйте позже.');
             });
     });
+
+    // Событие при выборе района
+    document.getElementById('districtSelect').addEventListener('change', function () {
+        document.getElementById('institutionSelect').innerHTML = '';
+        document.getElementById('institutionSelect').disabled = true;
+        document.getElementById('schoolRadio').disabled = false;
+        document.getElementById('spoRadio').disabled = false;
+        filterInstitutions();
+    });
+
+    // Событие при выборе типа учреждения
+    document.querySelectorAll('input[name="institutionType"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            selectedInstitutionType = this.value;
+            filterInstitutions();
+        });
+    });
+
+    // Загрузка данных при загрузке страницы
+    loadSchools();
 });

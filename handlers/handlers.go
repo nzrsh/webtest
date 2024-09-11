@@ -87,7 +87,7 @@ func DownloadRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	file, err := os.Open(path)
 	if err != nil {
-		logger.Logger.Infoln("Нет результатов у ", district, name, spec, "Ошибка:", err)
+		logger.Logger.Errorln("Нет результатов у ", district, name, spec, "Ошибка:", err)
 		http.Error(w, "Результаты ещё не сформированы", http.StatusInternalServerError)
 		return
 	}
@@ -99,7 +99,7 @@ func DownloadRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.Error(w, "Результаты ещё не сформированы", http.StatusInternalServerError)
 		return
 	}
-	logger.Logger.Infoln("Получил результаты", district, name, spec, "успешно")
+	logger.Logger.Infoln("Получил результаты", district, name, "успешно")
 }
 
 func MyTlsFiles(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
@@ -141,20 +141,6 @@ func AuthenticateRedir(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-/*func GetMessage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	decoder := json.NewDecoder(r.Body)
-	var msg database.Message
-	err := decoder.Decode(&msg)
-	if err != nil {
-		logger.Logger.Errorln("Ошибка декодирования обращения", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	textmsg := fmt.Sprintf("\n\nРайон:%s\nШкола:%s\nИмя:%s\nТелефон:%s\nПочта:%s\n%s", msg.Disctrict, msg.Name, msg.Sender, msg.Phone, msg.Email, msg.Text)
-	MsgWriter.WriteString(textmsg)
-	w.WriteHeader(http.StatusOK)
-}*/
-
 func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var newUser database.User
 
@@ -171,4 +157,24 @@ func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 func TechSupport(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.ServeFile(w, r, "public/html/TechPage.html")
+}
+
+func GetMessage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var feedback database.Feedback
+	err := json.NewDecoder(r.Body).Decode(&feedback)
+	if err != nil {
+		http.Error(w, "Ошибка при парсинге JSON", http.StatusBadRequest)
+		logger.Logger.Printf("Ошибка при парсинге JSON сообщения: %v\n", err)
+		return
+	}
+
+	logger.Logger.Printf("%s %s отправил новое сообщение!", feedback.District, feedback.Schoolname)
+	err = database.PutFeedbackInDb(feedback)
+	if err != nil {
+		http.Error(w, "Ошибка при записи данных в базу", http.StatusInternalServerError)
+		logger.Logger.Errorf("Ошибка при записи данных в базу данных: %v\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }

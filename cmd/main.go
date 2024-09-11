@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"net/http"
 
 	"github.com/Rozenkranz/WebTest/database"
@@ -30,46 +31,42 @@ func main() {
 
 	//Начало HTTPS
 
-	/*go func() {
-			logger.Info("Запускаю HTTP сервер для перенаправления на HTTPS...")
-			err := http.ListenAndServe(":80", http.HandlerFunc(redirectToHTTPS))
-			if err != nil {
-				logger.Fatal(err)
-			}
-		}()
-
-		logger.Info("Запускаю HTTPS сервер...")
-		certFile := "/etc/letsencrypt/live/attest.edu-penza.ru/fullchain.pem"
-		keyFile := "/etc/letsencrypt/live/attest.edu-penza.ru/privkey.pem"
-		logger.Infoln("Абсолютный путь к файлу сертификата:", certFile)
-		logger.Infoln("Абсолютный путь к файлу закрытого ключа:", keyFile)
-
-		tlsConfig := &tls.Config{
-			MinVersion: tls.VersionTLS12,
-		}
-
-		cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+	go func() {
+		logger.Info("Запускаю HTTP сервер для перенаправления на HTTPS...")
+		err := http.ListenAndServe(":80", http.HandlerFunc(redirectToHTTPS))
 		if err != nil {
 			logger.Fatal(err)
 		}
+	}()
 
-		tlsConfig.Certificates = []tls.Certificate{cert}
+	logger.Info("Запускаю HTTPS сервер...")
+	certFile := "/etc/letsencrypt/live/attest.edu-penza.ru/fullchain.pem"
+	keyFile := "/etc/letsencrypt/live/attest.edu-penza.ru/privkey.pem"
+	logger.Infoln("Абсолютный путь к файлу сертификата:", certFile)
+	logger.Infoln("Абсолютный путь к файлу закрытого ключа:", keyFile)
 
-		server := &http.Server{
-			Addr:      ":443",
-			TLSConfig: tlsConfig,
-			Handler:   router,
-		}
-
-		err = server.ListenAndServeTLS("", "")
-		if err != nil {
-			logger.Fatal(err)
-		}
+	tlsConfig := &tls.Config{
+		MinVersion: tls.VersionTLS12,
 	}
-	func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
-	}*/
 
-	//Это HTTP
+	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+	if err != nil {
+		logger.Fatal(err)
+	}
 
+	tlsConfig.Certificates = []tls.Certificate{cert}
+
+	server := &http.Server{
+		Addr:      ":443",
+		TLSConfig: tlsConfig,
+		Handler:   router,
+	}
+
+	err = server.ListenAndServeTLS("", "")
+	if err != nil {
+		logger.Fatal(err)
+	}
+}
+func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
 }

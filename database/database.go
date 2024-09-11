@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/Rozenkranz/WebTest/logger"
 	_ "github.com/mattn/go-sqlite3"
@@ -17,7 +18,7 @@ func InitDB() error {
 	// Инициализация и подключение к базе данных
 	db, err := sql.Open("sqlite3", "db/schools.db")
 	if err != nil {
-		logger.Logger.Errorln("БД не смогла открыться...", err)
+		logger.Logger.Errorln("БД не открыта: ", err)
 		return err
 	}
 	DB = db
@@ -96,13 +97,13 @@ func RegisterUser(newUser User) error {
 		if err == sql.ErrNoRows {
 			_, err = DB.Exec("INSERT INTO schools (district, name, password, login, spec) VALUES (?, ?, ?, ?, ?)", newUser.District, newUser.Name, newUser.Password, newUser.Login, newUser.Spec)
 			if err != nil {
-				logger.Logger.Errorln(err)
+				logger.Logger.Errorf("Ошибка регистрации пользователя %s %s: %s", newUser.District, newUser.Name, err)
 				return err
 			}
 			logger.Logger.Infoln("Пользователь ", newUser.Name, " добавлен успешно")
 			return nil
 		} else {
-			logger.Logger.Errorln(err)
+			logger.Logger.Errorf("Ошибка регистрации пользователя %s %s: %s", newUser.District, newUser.Name, err)
 			return err
 		}
 	}
@@ -111,7 +112,8 @@ func RegisterUser(newUser User) error {
 		_, err = DB.Exec("UPDATE schools SET login = ?, password = ? WHERE district = ? AND name = ?", newUser.Login, newUser.Password, newUser.District, newUser.Name)
 		if err != nil {
 			logger.Logger.Errorln(err)
-			err = fmt.Errorf("Логин \"%s\" уже занят!", newUser.Login)
+			err = fmt.Errorf("логин \"%s\" уже занят", newUser.Login)
+			logger.Logger.Errorf("Ошибка регистрации пользователя %s %s: %s", newUser.District, newUser.Name, err)
 			return err
 		}
 		logger.Logger.Infoln("Логин и пароль пользователя ", newUser.Name, " обновлены успешно")
@@ -119,5 +121,24 @@ func RegisterUser(newUser User) error {
 	}
 
 	logger.Logger.Errorln("Пользователь ", newUser.Name, " уже зарегистрирован")
-	return fmt.Errorf("Пользователь %s уже зарегистрирован!", newUser.Name)
+	return fmt.Errorf("пользователь %s уже зарегистрирован", newUser.Name)
+}
+
+func PutFeedbackInDb(f Feedback) error {
+	// Получаем текущее время
+	currentTime := time.Now().Format(time.RFC3339)
+
+	// SQL запрос для вставки данных
+	insertSQL := `
+	 INSERT INTO tech (District, Spec, Schoolname, Sendername, Phone, Email, Time, Message)
+	 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+	 `
+
+	// Выполняем вставку данных
+	_, err := DB.Exec(insertSQL, f.District, f.Spec, f.Schoolname, f.Name, f.Phone, f.Email, currentTime, f.Message)
+	if err != nil {
+		return fmt.Errorf("ошибка при вставке сообщения в базу данных: %v", err)
+	}
+
+	return nil
 }

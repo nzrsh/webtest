@@ -33,12 +33,12 @@ type Res struct {
 	CountRes []int `json:"countres"`
 }
 
-type Message struct {
-	District string `json:"district"`
-	Name     string `json:"name"`
-	Sender   string `json:"sender"`
-	Phone    string `json:"phone"`
-	Email    string `json:"email"`
-	Text     string `json:"text"`
-	Date     string `json:"date"`
+type Feedback struct {
+	District   string `json:"district"`
+	Spec       string `json:"institutionType"`
+	Schoolname string `json:"institution"`
+	Name       string `json:"name"`
+	Phone      string `json:"phone"`
+	Email      string `json:"email"`
+	Message    string `json:"message"`
 }
