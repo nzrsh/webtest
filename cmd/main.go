@@ -23,6 +23,9 @@ func main() {
 	router := httprouter.New()
 	router.ServeFiles("/public/*filepath", http.Dir("./public"))
 	routes.SetupRoutes(router)
+
+	//http.ListenAndServe(":8080", router)
+
 	go func() {
 		logger.Info("Запускаю HTTP сервер сертификации...")
 		err = http.ListenAndServe(":8080", router)

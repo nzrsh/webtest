@@ -17,7 +17,6 @@ function getResult() {
     console.log('Ошибка парсинга JSON:', error);
     return
   }
-
   var xhr = new XMLHttpRequest();
   var param1Value = user.district;
   var param2Value = user.name;
@@ -53,6 +52,29 @@ function getResult() {
 
   xhr.send();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Получаем данные из localStorage
+  const name = localStorage.getItem('userDistrict');
+  const userInstitution = localStorage.getItem('userInstitution');
+  const userName = localStorage.getItem('userName');
+
+  // Проверяем наличие данных и выводим в соответствующие div
+  if (userDistrict) {
+      document.getElementById('districtDisplay').textContent = 'Ваш район: ' + userDistrict;
+  }
+
+  if (userInstitution) {
+      document.getElementById('institutionDisplay').textContent = 'Ваше учреждение: ' + userInstitution;
+  }
+
+  if (userName) {
+      document.getElementById('nameDisplay').textContent = 'Как к вам можно обращаться: ' + userName;
+  }
+});
+
+
+
 
 function goToReg(){
   window.location.href = '/registration';
@@ -121,4 +143,25 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
       console.log(error);
     });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Получаем строку с данными из localStorage
+  const userDataString = localStorage.getItem('userData');
+
+  // Проверяем, что данные есть
+  if (userDataString) {
+      // Парсим данные в объект
+      const userData = JSON.parse(userDataString);
+
+      // Извлекаем необходимые поля
+      const userName = userData.name;
+
+      if (userName) {
+          document.getElementById('nameplacer').textContent = userName;
+      }
+  } else {
+      console.log('userData не найден в localStorage');
+  }
 });
