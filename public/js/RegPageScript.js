@@ -177,6 +177,7 @@ function restrictToLatin() {
 
         if (!latinPattern.test(inputValue)) {
             event.target.value = inputValue.replace(/[^a-zA-Z0-9]/g, ''); 
+            alert("Специальные символы запрещены. Используйте только латинские буквы и цифры!")
         }
     });
 
@@ -189,6 +190,7 @@ function restrictToLatin() {
 
         if (!latinPattern.test(inputValue)) {
             event.target.value = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+            alert("Специальные символы запрещены. Используйте только латинские буквы и цифры!")
         }
     });
 
@@ -198,6 +200,7 @@ function restrictToLatin() {
 
         if (!latinPattern.test(inputValue)) {
             event.target.value = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+            alert("Специальные символы запрещены. Используйте только латинские буквы и цифры!")
         }
     });
 }
