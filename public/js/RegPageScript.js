@@ -106,7 +106,7 @@ function validateInput() {
     loginInput.addEventListener('input', function () {
         if (loginInput.value.length < 6) {
             logLab.style.display = "block";
-            logLab.innerText = "Логин должен содержать 6-8 символов";
+            logLab.innerText = "Логин должен содержать 6-15 символов";
             logLab.style.color = "#A6114D";
         } else {
             logLab.style.display = "block";
@@ -121,7 +121,7 @@ function validateInput() {
     passwordInput.addEventListener('input', function () {
         if (passwordInput.value.length < 6) {
             document.getElementById('pas_lab1').style.display = "block";
-            document.getElementById('pas_lab1').innerText = "Пароль должен содержать 6-8 символов";
+            document.getElementById('pas_lab1').innerText = "Пароль должен содержать 6-15 символов";
             document.getElementById('pas_lab1').style.color = "#A6114D";
         } else {
             document.getElementById('pas_lab1').style.display = "block";
@@ -148,8 +148,8 @@ function validateInput() {
 // Ограничение длины логина и пароля
 function limitInputLength() {
     loginInput.addEventListener('input', function () {
-        if (loginInput.value.length > 8) {
-            loginInput.value = loginInput.value.slice(0, 8);
+        if (loginInput.value.length > 15) {
+            loginInput.value = loginInput.value.slice(0, 15);
         }
     });
 
@@ -158,13 +158,13 @@ function limitInputLength() {
 
     passwordInput.addEventListener('input', function () {
         if (passwordInput.value.length > 8) {
-            passwordInput.value = passwordInput.value.slice(0, 8);
+            passwordInput.value = passwordInput.value.slice(0, 15);
         }
     });
 
     password2Input.addEventListener('input', function () {
-        if (password2Input.value.length > 8) {
-            password2Input.value = password2Input.value.slice(0, 8);
+        if (password2Input.value.length > 15) {
+            password2Input.value = password2Input.value.slice(0, 15);
         }
     });
 }
