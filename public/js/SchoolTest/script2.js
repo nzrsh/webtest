@@ -71,10 +71,21 @@ const quest = Vue.createApp({
         console.log('user:', user);
       } catch (error) {
         console.log('Ошибка парсинга JSON:', error);
-        return;
       }
 
+      if (user == null)
+      {
+      alert("Вы не были авторизованы. Перенаправление на страницу авторизации.")
+      window.location.href = '/';
+      return;
+      }
       var results1 = localStorage.getItem('result1');
+      if (results1 == null)
+      {
+        alert("Первая часть теста не была пройдена. Перенаправление на страницу авторизации.")
+        window.location.href = '/';
+        return
+      }
       console.log('results1:', results1);
       var results2 = localStorage.getItem('result2');
       console.log('results2:', results2);

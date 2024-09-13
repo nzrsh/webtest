@@ -47,6 +47,14 @@ const quest = Vue.createApp({
               }
               //Тут добавить проверку, если вышли за пределы вопросов, счётчик не повышаем, ничего не делаем
               if (count.value == numberOfQuestions - 1) {
+                var localStorageData = localStorage.getItem('userData');
+                let user = JSON.parse(localStorageData);
+                if (user == null)
+                {
+                  alert("Вы не были авторизованы. Перенаправление на страницу авторизации.")
+                  window.location.href = '/';
+                  return;
+                }
                 localStorage.setItem('result1', answerArr);
                 window.location.href = '/schooltest/test2';
               }
