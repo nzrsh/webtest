@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Rozenkranz/WebTest/bot"
 	"github.com/Rozenkranz/WebTest/database"
 	"github.com/Rozenkranz/WebTest/logger"
 	"github.com/julienschmidt/httprouter"
@@ -168,7 +167,6 @@ func GetMessage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		logger.Logger.Printf("Ошибка при парсинге JSON сообщения: %v\n", err)
 		return
 	}
-	bot.FormatMSG(feedback)
 	logger.Logger.Printf("%s %s отправил новое сообщение!", feedback.District, feedback.Schoolname)
 	err = database.PutFeedbackInDb(feedback)
 	if err != nil {
