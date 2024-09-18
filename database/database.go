@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/Rozenkranz/WebTest/logger"
@@ -58,6 +59,22 @@ func ParseUserJSON(jsonData io.ReadCloser, w http.ResponseWriter) (schooluser Sc
 		return SchoolUser{}, err
 	}
 	return user, nil
+}
+
+func sliceToString(slice []string) string {
+	return strings.Join(slice, ",")
+}
+
+func InputResultsInDB(user SchoolUser) error {
+	result1Str := sliceToString(user.Result1)
+	result2Str := sliceToString(user.Result2)
+
+	_, err := DB.Exec("INSERT INTO data (ID, District, Name, Password, Login, Username, Result1, Result2, Type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", user.ID, user.District, user.Name, user.Password, user.Login, user.Username, result1Str, result2Str, user.Group)
+	if err != nil {
+
+		return fmt.Errorf("ошибка вставки результатов в бд: %s", err)
+	}
+	return nil
 }
 
 func TakeSchoolsFromBD() ([]School, error) {
