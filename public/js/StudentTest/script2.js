@@ -141,6 +141,8 @@ function updateQuestion() {
 }
 
 function sendJSONToServer(url) {
+    const button = document.getElementById('baton');
+    button.disabled = true;
     const localStorageData = localStorage.getItem('userData');
     if (!localStorageData) {
         alert("Вы не авторизованы. Перенаправление на страницу авторизации.");
@@ -186,17 +188,21 @@ function sendJSONToServer(url) {
             localStorage.removeItem('organization');
             localStorage.removeItem('username');
             window.location.pathname = "/end";
+            button.disabled = false;
         } else {
             alert("Не удалось отправить результаты. Проверьте интернет соединение.");
+            button.disabled = false;
         }
     };
 
     xhr.onerror = function () {
         alert("Ошибка соединения.");
+        button.disabled = false;
     };
 
     xhr.ontimeout = function () {
         alert("Время ожидания истекло. Сервер не отвечает.");
+        button.disabled = false;
     };
 
     xhr.send(JSON.stringify(userData));

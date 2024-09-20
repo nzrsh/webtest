@@ -55,6 +55,8 @@ document.getElementById('baton').addEventListener('click', function () {
 
 // Функция для отправки данных на сервер
 function sendJSONToServer(url) {
+    const button = document.getElementById('baton');
+    button.disabled = true;
     const localStorageData = localStorage.getItem('userData');
 
     let user;
@@ -101,9 +103,16 @@ function sendJSONToServer(url) {
         } else {
             alert("Ошибка отправки данных.");
         }
+        button.disabled = false;
     };
     xhr.onerror = function () {
-        alert("Ошибка отправки данных.");
+        alert("Ошибка соединения.");
+        button.disabled = false;
+    };
+
+    xhr.ontimeout = function () {
+        alert("Время ожидания истекло. Сервер не отвечает.");
+        button.disabled = false;
     };
     xhr.send(JSON.stringify(userData));
 }
