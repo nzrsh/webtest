@@ -1,8 +1,81 @@
-let count = 0;
+// Реактивная переменная вопроса
+const count = Vue.ref(0);
+// Количество вопросов
 const numberOfQuestions = 36;
+// Создание нового массива ответов и заполнение его пустыми значениями
 const answerArr = new Array(numberOfQuestions).fill(null);
 
-// Массивы вопросов и вариантов ответа
+const text = Vue.ref('обычно хорошо понимает и учитывает переживания своих друзей (подруг)');
+const text2 = Vue.ref('совершая то или иное действие, в основном учитывает, нравится ли оно ему, невзирая на то, что делает его компания');
+// Определение приложения Vue
+const quest = Vue.createApp({
+    el: "#quest1",
+    data() {
+        return {
+            counter: count,
+            quest: text,
+            quest2: text2
+        };
+    },
+    methods: {
+        sliceArr() {
+            text.value = quest1Arr.at(count.value);
+            text2.value = quest2Arr.at(count.value);
+        },
+
+        increment() {
+            //Тут читаем значения с радио для увеличения произволительности
+            const rate2Value = document.querySelector('input[name="rate_2"]:checked');
+            const rate3Value = document.querySelector('input[name="rate_3"]:checked');
+
+            //Если радио не выбраны, выводим алерт (временно)
+            if (rate2Value !== null && rate3Value !== null) {
+                //Теперь читаем какие радио выбраны
+                const rate2ValueChecked = rate2Value.value;
+                const rate3ValueChecked = rate3Value.value;
+
+                //Почему тут минус один?
+                if (rate3ValueChecked != '0') {
+                    answerArr[count.value] = rate3ValueChecked + rate2ValueChecked;
+                }
+                else {
+                    answerArr[count.value] = rate3ValueChecked;
+                }
+                if (count.value == numberOfQuestions - 2) {
+                    but = document.getElementById('baton');
+                    but.innerHTML = 'Перейти к следующему тесту';
+                  }
+                //Тут добавить проверку, если вышли за пределы вопросов, счётчик не повышаем, ничего не делаем
+                if (count.value == numberOfQuestions - 1) {
+                    var localStorageData = localStorage.getItem('userData');
+                let user = JSON.parse(localStorageData);
+                if (user == null)
+                {
+                  alert("Вы не были авторизованы. Перенаправление на страницу авторизации.")
+                  window.location.href = '/';
+                  return;
+                }
+                    localStorage.setItem('result1', answerArr);
+                    window.location.href = '/studenttest/test2';
+                }
+
+                //Повышаем счётчик вопроса
+                if (count.value !== numberOfQuestions - 1) {
+                    count.value++;
+                    rate2Value.checked = false;
+                    rate3Value.checked = false;
+                    this.sliceArr();
+                }
+
+            } else {
+                //Желательно вставить лейбл с предупреждением вместо алерта, а то он убогий
+                alert("Пожалуйста, выберите необходимые ответы.");
+            }
+        }
+    }
+});
+const vm = quest.mount('#quest1');
+
 const quest1Arr = [
     'обычно хорошо понимает и учитывает переживания своих друзей (подруг)',
     'легко устанавливает контакт с другими сверстниками',
@@ -40,7 +113,7 @@ const quest1Arr = [
     'в различных видах соревнований (в учебной/ спортивной и других видах деятельности) старается соблюдать все правила/ даже если это может помешать успеху',
     'любит участвовать в делах/ мероприятиях своей учебной группы или своей организации СПО',
     'не любит грязь/ беспорядок вокруг себя'
-];
+]
 
 const quest2Arr = [
     'совершая то или иное действие/ в основном учитывает/ нравится ли оно ему, невзирая на то, что делает его компания',
@@ -79,54 +152,4 @@ const quest2Arr = [
     'стремится к самореализации в музыке/ рисовании/ техническом конструировании и/или в других видах творческой деятельности',
     'стремится хорошо понимать и учитывать переживания своих друзей (подруг)',
     'старается учитывать последствия своих действий для окружающей природной среды/ мест своего нахождения'
-];
-
-// Функция для обновления текста вопросов
-function updateQuestion() {
-    document.getElementById('questionCounter').textContent = (count + 1) + '/36. Итак, про отличительные особенности Ваших действий, связанных с школьной жизнью, можно сказать следующее:';
-    document.getElementById('option1').textContent = "а) " + quest1Arr[count];
-    document.getElementById('option2').textContent = "б) " + quest2Arr[count];
-}
-
-// Функция обработки нажатия на кнопку "Далее"
-function increment() {
-    const rate2Value = document.querySelector('input[name="rate_2"]:checked');
-    const rate3Value = document.querySelector('input[name="rate_3"]:checked');
-
-    if (rate2Value !== null && rate3Value !== null) {
-        const rate2ValueChecked = rate2Value.value;
-        const rate3ValueChecked = rate3Value.value;
-
-        if (rate3ValueChecked != '0') {
-            answerArr[count] = rate3ValueChecked + rate2ValueChecked;
-        } else {
-            answerArr[count] = rate3ValueChecked;
-        }
-
-        if (count === numberOfQuestions - 2) {
-            document.getElementById('baton').innerHTML = 'Перейти к следующему тесту';
-        }
-
-        if (count === numberOfQuestions - 1) {
-            const localStorageData = localStorage.getItem('userData');
-            const user = JSON.parse(localStorageData);
-            if (user == null) {
-                alert("Вы не были авторизованы. Перенаправление на страницу авторизации.");
-                window.location.href = '/';
-                return;
-            }
-            localStorage.setItem('result1', answerArr);
-            window.location.href = '/studenttest/test2';
-        } else {
-            count++;
-            updateQuestion();
-            rate2Value.checked = false;
-            rate3Value.checked = false;
-        }
-    } else {
-        alert("Пожалуйста, выберите необходимые ответы.");
-    }
-}
-
-// Инициализация первого вопроса
-updateQuestion();
+]
