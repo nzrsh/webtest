@@ -18,6 +18,7 @@ import (
 func Authenticate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	err := r.ParseForm()
 	if err != nil {
+		logger.Logger.Errorf("Authenticate | Ошибка парсинга формы аутентификации: %s", err)
 		http.Error(w, "Ошибка сервера", http.StatusInternalServerError)
 		return
 	}
@@ -109,14 +110,14 @@ func SendSchools(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	schools, err := database.TakeSchoolsFromBD()
 	if err != nil {
 		http.Error(w, "Ошибка с получением списка школ", http.StatusInternalServerError)
-		logger.Logger.Errorln("Ошибка с получением списка школ")
+		logger.Logger.Errorf("SendSchools | Ошибка получения списка школ: %s", err)
 		return
 	}
 
 	schoolsJSON, err := json.Marshal(schools)
 	if err != nil {
 		http.Error(w, "Ошибка с получением списка школ", http.StatusInternalServerError)
-		logger.Logger.Errorln("Ошибка с кодированием списка школ")
+		logger.Logger.Errorf("SendSchools | Ошибка сериализации списка школ: %s", err)
 	}
 	w.Header().Set("Content-Type", "application/json")
 
@@ -129,11 +130,13 @@ func RegUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
+		logger.Logger.Errorf("RegUser | Ошибка десереализации JSON нового пользователя: %s", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	err = database.RegisterUser(newUser)
 	if err != nil {
+		logger.Logger.Errorf("RegUser | Ошибка добавления в БД нового пользователя: %s", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -147,7 +150,7 @@ func GetMessage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	err := json.NewDecoder(r.Body).Decode(&feedback)
 	if err != nil {
 		http.Error(w, "Ошибка при парсинге JSON", http.StatusBadRequest)
-		logger.Logger.Printf("Ошибка при парсинге JSON сообщения: %v\n", err)
+		logger.Logger.Errorf("GetMessage | Ошибка при парсинге JSON сообщения: %v\n", err)
 		return
 	}
 	logger.Logger.Printf("%s %s отправил новое сообщение!", feedback.District, feedback.Schoolname)
@@ -165,7 +168,7 @@ func SchoolSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	user, err := database.ParseUserJSON(r.Body, w)
 	if err != nil {
-		logger.Logger.Errorln("Ошибка парсинга JSON!")
+		logger.Logger.Errorf("SchoolSave | Ошибка десериализации результатов школы из JSON: %v\n", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 
@@ -182,7 +185,7 @@ func SchoolSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	err = utils.MakeDirAndXmlChild(user)
 
 	if err != nil {
-		logger.Logger.Errorln("Ошибка формирования XML: ", err)
+		logger.Logger.Errorf("SchoolSave | Ошибка формирования XML у пользователя %s %s: %s", user.District, user.Name, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -216,7 +219,6 @@ func GetRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return nil
 	})
 	if err != nil {
-		//logger.Logger.Error("Ошибка при обходе директории:", district, name, spec, err)
 		res[2] = 0
 	}
 
@@ -253,7 +255,7 @@ func GetRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	results.CountRes = res
 	jsonData, err := json.Marshal(results)
 	if err != nil {
-		logger.Logger.Errorln("ошибка при маршализировании результатов: ", err)
+		logger.Logger.Errorf("Ошибка при маршализировании результатов у %s %s: %s", district, name, err)
 	}
 	w.Write([]byte(jsonData))
 
@@ -262,7 +264,7 @@ func GetRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func StudentSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user, err := database.ParseUserJSON(r.Body, w)
 	if err != nil {
-		logger.Logger.Errorln("Ошибка парсинга JSON!")
+		logger.Logger.Errorf("StudentSave | Ошибка парсинга результатов JSON: %s", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 
@@ -273,7 +275,7 @@ func StudentSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	err = utils.MakeDirAndXmlStudent(user)
 
 	if err != nil {
-		logger.Logger.Errorln("Ошибка формирования XML: ", err)
+		logger.Logger.Errorf("SchoolSave | Ошибка формирования XML у пользователя %s %s: %s", user.District, user.Name, err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	w.WriteHeader(http.StatusOK)
