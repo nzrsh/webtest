@@ -143,7 +143,7 @@ func RegisterUser(newUser User) error {
 
 func PutFeedbackInDb(f Feedback) error {
 	// Получаем текущее время
-	currentTime := time.Now().Format(time.RFC3339)
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
 	// SQL запрос для вставки данных
 	insertSQL := `

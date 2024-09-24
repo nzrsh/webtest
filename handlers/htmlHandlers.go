@@ -45,7 +45,7 @@ func StudentName(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.ServeFile(w, r, "public/html/StudentTest/NamePage.html")
 }
 
-// End отдает страницу EndPage.html.
+// End отдает страницу EndPage.html
 func End(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.ServeFile(w, r, "public/html/EndPage.html")
 }
