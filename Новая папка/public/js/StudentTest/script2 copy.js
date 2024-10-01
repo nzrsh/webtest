@@ -1,6 +1,148 @@
-let count = 0;
-const numberOfQuestions = 103;
-const answerArr = new Array(numberOfQuestions).fill(null);
+// Импортируем функцию ref из библиотеки Vue
+const { ref } = Vue;
+
+// Инициализируем переменные и добавляем комментарии
+const count = ref(0); // Счетчик
+const numberOfQuestions = 103; // Количество вопросов
+const answerArr = new Array(numberOfQuestions).fill(null); // Массив ответов
+const text = ref('Обычно у меня бывает сразу несколько увлечений, долгое время увлекаться чем-либо одним мне не свойственно.'); // Текст вопроса
+
+const quest = Vue.createApp({
+  el: "#quest2",
+  data() {
+    return {
+      counter: count,
+      quest: text,
+    }
+  },
+  methods: {
+    slice_arr() {
+      text.value = quest3Arr.at(count.value);
+    },
+    increment() {
+      // Читаем выбранное значение радио
+      const rateValue = document.querySelector('input[name="rate"]:checked');
+      if (rateValue !== null) {
+        const rateValueChecked = rateValue.value;
+        answerArr[count.value] = rateValueChecked;
+        if (count.value == numberOfQuestions - 1) {
+          localStorage.setItem('result2', answerArr)
+          this.sendJSONToServer('/studenttest/save')
+          
+        }
+        document.querySelector('input[name="rate"]:checked').checked = false;
+        if (count.value == numberOfQuestions - 2) {
+          but = document.getElementById('baton');
+          but.innerHTML = 'Завершить';
+        }
+        if (count.value !== numberOfQuestions - 1)
+          count.value++;
+        this.slice_arr();
+      } else {
+        alert("Пожалуйста, выберите необходимые кнопки.");
+      }
+
+    },
+
+
+    sendJSONToServer(url) {
+      var localStorageData = localStorage.getItem('userData');
+      console.log('localStorageData:', localStorageData);
+      console.log("Кнопка нажата")
+      var button = document.getElementById("baton");
+      button.disabled = true;
+      setTimeout(function() {
+        // Включаем кнопку обратно после 5 секунд
+        button.disabled = false;
+      }, 5000);
+    
+      var user;
+      try {
+        user = JSON.parse(localStorageData);
+        console.log('user:', user);
+      } catch (error) {
+        console.log('Ошибка парсинга JSON:', error);
+      }
+
+      if (user == null)
+      {
+      alert("Вы не были авторизованы. Перенаправление на страницу авторизации.")
+      window.location.href = '/';
+      return;
+      }
+      var results1 = localStorage.getItem('result1');
+      if (results1 == null)
+      {
+        alert("Первая часть теста не была пройдена. Перенаправление на страницу авторизации.")
+        window.location.href = '/';
+        return
+      }
+      console.log('results1:', results1);
+      console.log(Array.isArray(results1));
+    
+      var results2 = localStorage.getItem('result2');
+      console.log('results2:', results2);
+    
+      var organization1 = localStorage.getItem("organization");
+      console.log('organization:', organization1);
+    
+      var username1 = localStorage.getItem('username');
+      console.log(username1);
+
+      var group1 = localStorage.getItem('group')
+    
+      var userData = {
+        id: user.id,
+        district: user.district,
+        name: user.name,
+        password: 'hashed',
+        login: user.login,
+        username: username1,
+        organization: organization1,
+        result1: results1.split(','),
+        result2: results2.split(','),
+        group: group1
+      };
+      console.log('userData:', userData);
+    
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.timeout = 5000;
+    
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+          console.log('Успешный ответ')
+          // Дополнительные действия при успешном ответе
+          localStorage.removeItem('result1','result2','organization','username')
+          window.location.pathname = "/end";
+
+        } else {
+          console.log('Неуспешный ответ:', xhr.status, xhr.statusText);
+          alert("Ваше интернет соединение нестабильно или недоступно, результаты не были отправлены.")
+        }
+        xhr.onerror = function() {
+          // Ошибка при выполнении запроса
+          console.log('Ошибка запроса');
+        };
+      };
+    
+      xhr.onerror = function() {
+        console.log('Ошибка запроса');
+        alert("Ваше интернет соединение нестабильно или недоступно, результаты не были отправлены.")
+      };
+      
+      xhr.ontimeout = function() {
+        // Ошибка "Нет ответа от сервера"
+        console.log('Нет ответа от сервера');
+        alert("Ваше интернет соединение нестабильно или нет ответа от сервера, результаты не были отправлены.")
+      };
+
+      xhr.send(JSON.stringify(userData));
+      console.log(JSON.stringify(userData));
+    }
+  }
+});
 
 var quest3Arr = ['Я могу сказать, что в целом я контролирую свою судьбу.',
   'Я люблю поэзию.',
@@ -104,106 +246,5 @@ var quest3Arr = ['Я могу сказать, что в целом я контр
   'Когда я читаю какие-нибудь произведения, мне больше нравится следить за ходом событий и судьбой героев, чем разбираться в философских рассуждениях (как, например, в книгах Л.Н. Толстого).',
   'Мне нравится работа, требующая прежде всего добросовестности, точных навыков и умений.',
   'Иногда я старался держаться подальше от того или иного человека, чтобы не сделать или не сказать чего-нибудь такого, о чём потом пожалел бы.',
-  'В школе физика нравилась мне больше, чем география.'];
-
-const questionCounter = document.getElementById('question-counter');
-const baton = document.getElementById('baton');
-
-// Обработчик для кнопки "Далее"
-baton.addEventListener('click', function () {
-    const rateValue = document.querySelector('input[name="rate"]:checked');
-    if (rateValue !== null) {
-        answerArr[count] = rateValue.value;
-
-        if (count === numberOfQuestions - 1) {
-            localStorage.setItem('result2', answerArr);
-            sendJSONToServer('/studenttest/save');
-            return;
-        }
-
-        document.querySelector('input[name="rate"]:checked').checked = false;
-
-        if (count === numberOfQuestions - 2) {
-            baton.innerHTML = 'Завершить';
-        }
-
-        if (count !== numberOfQuestions - 1) {
-            count++;
-            updateQuestion();
-        }
-    } else {
-        alert("Пожалуйста, выберите необходимые кнопки.");
-    }
-});
-
-function updateQuestion() {
-    questionCounter.innerHTML = `${count + 1}/103. ${quest3Arr[count]}`;
-}
-
-function sendJSONToServer(url) {
-    const button = document.getElementById('baton');
-    button.disabled = true;
-    const localStorageData = localStorage.getItem('userData');
-    if (!localStorageData) {
-        alert("Вы не авторизованы. Перенаправление на страницу авторизации.");
-        window.location.href = '/';
-        return;
-    }
-
-    const results1 = localStorage.getItem('result1');
-    if (!results1) {
-        alert("Первая часть теста не была пройдена. Перенаправление на страницу авторизации.");
-        window.location.href = '/';
-        return;
-    }
-
-    const results2 = localStorage.getItem('result2');
-    const organization1 = localStorage.getItem("organization");
-    const username1 = localStorage.getItem('username');
-    const group1 = localStorage.getItem('group');
-
-    const user = JSON.parse(localStorageData);
-    const userData = {
-        id: user.id,
-        district: user.district,
-        name: user.name,
-        password: 'hashed',
-        login: user.login,
-        username: username1,
-        organization: organization1,
-        result1: results1.split(','),
-        result2: results2.split(','),
-        group: group1
-    };
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.timeout = 5000;
-
-    xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 400) {
-            localStorage.removeItem('result1');
-            localStorage.removeItem('result2');
-            localStorage.removeItem('organization');
-            localStorage.removeItem('username');
-            window.location.pathname = "/end";
-            button.disabled = false;
-        } else {
-            alert("Не удалось отправить результаты. Проверьте интернет соединение.");
-            button.disabled = false;
-        }
-    };
-
-    xhr.onerror = function () {
-        alert("Ошибка соединения.");
-        button.disabled = false;
-    };
-
-    xhr.ontimeout = function () {
-        alert("Время ожидания истекло. Сервер не отвечает.");
-        button.disabled = false;
-    };
-
-    xhr.send(JSON.stringify(userData));
-}
+  'В школе физика нравилась мне больше, чем география.']
+const vm = quest.mount('#quest2')

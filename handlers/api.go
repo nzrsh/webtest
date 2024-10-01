@@ -6,7 +6,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/Rozenkranz/WebTest/database"
 	"github.com/Rozenkranz/WebTest/logger"
@@ -81,7 +80,7 @@ func DownloadRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	file, err := os.Open(path)
 	if err != nil {
-		logger.Logger.Errorln("Нет результатов у ", district, name, spec, "Ошибка:", err)
+		logger.Logger.Debugln("Нет результатов у ", district, name, spec)
 		http.Error(w, "Результаты ещё не сформированы", http.StatusInternalServerError)
 		return
 	}
@@ -162,103 +161,6 @@ func GetMessage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-}
-
-func SchoolSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
-	user, err := database.ParseUserJSON(r.Body, w)
-	if err != nil {
-		logger.Logger.Errorf("SchoolSave | Ошибка десериализации результатов школы из JSON: %v\n", err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-
-	} else {
-		logger.Logger.Infoln(user.District, user.Name, "Отправил данные!")
-	}
-
-	err = database.InputResultsInDB(user)
-	if err != nil {
-		logger.Logger.Errorln(err)
-		return
-	}
-
-	err = utils.MakeDirAndXmlChild(user)
-
-	if err != nil {
-		logger.Logger.Errorf("SchoolSave | Ошибка формирования XML у пользователя %s %s: %s", user.District, user.Name, err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	w.WriteHeader(http.StatusOK)
-}
-
-func GetRes(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
-	district := r.URL.Query().Get("district")
-	name := r.URL.Query().Get("name")
-	spec := r.URL.Query().Get("spec")
-
-	res := []int{0, 0, 0}
-
-	var path string
-
-	if spec == "child" {
-		path = "./Ответы/Школы/Школьники/" + district + "/" + name
-	}
-	if spec == "student" {
-		path = "./Ответы/Колледжи/Студенты/" + district + "/" + name
-	}
-
-	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() && filepath.Ext(path) == ".xml" {
-			res[2]++
-		}
-		return nil
-	})
-	if err != nil {
-		res[2] = 0
-	}
-
-	err = filepath.Walk(path+"/А/", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() && filepath.Ext(path) == ".xml" {
-			res[0]++
-		}
-		return nil
-	})
-	if err != nil {
-		//logger.Logger.Error("Ошибка при обходе директории:", district, name, spec, err)
-		res[0] = 0
-	}
-
-	err = filepath.Walk(path+"/Б/", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() && filepath.Ext(path) == ".xml" {
-			res[1]++
-		}
-		return nil
-	})
-	if err != nil {
-		//logger.Logger.Error("Ошибка при обходе директории:", district, name, spec, err)
-		res[1] = 0
-	}
-	res[2] = res[2] - (res[0] + res[1])
-	//logger.Logger.Infoln(district, name, "Посмотрели количество прошедших: ", res)
-	var results database.Res
-	results.CountRes = res
-	jsonData, err := json.Marshal(results)
-	if err != nil {
-		logger.Logger.Errorf("Ошибка при маршализировании результатов у %s %s: %s", district, name, err)
-	}
-	w.Write([]byte(jsonData))
-
 }
 
 func StudentSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

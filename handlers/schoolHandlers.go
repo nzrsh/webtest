@@ -12,25 +12,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// SchoolTest1 отдает страницу SchoolTest1.html.
-func SchoolTest1(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.ServeFile(w, r, "public/html/SchoolTest/SchoolTest1.html")
-}
-
-// SchoolTest2 отдает страницу SchoolTest2.html.
-func SchoolTest2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.ServeFile(w, r, "public/html/SchoolTest/SchoolTest2.html")
-}
-
-// Welcome отдает страницу WelcomePage.html.
-func WelcomeSchool(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.ServeFile(w, r, "public/html/SchoolTest/WelcomePage.html")
-}
-
-func SchoolName(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.ServeFile(w, r, "public/html/SchoolTest/NamePage.html")
-}
-
 // SchoolSave получает данные от пользователя и сохраняет их.
 func SchoolSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Техподдержка</title>
+</head>
+
+<body>
+    <img src="/public/img/background_white.jpg" class="background">
+
+    <div class="header">
+        <span id="org"><img src="/public/img/OrgImg.jpg" class="orgImg">
+            <p class="orgText">Институт регионального развития</p>
+        </span>
+    </div>
+
+    <div class="welcome">
+        <div class="tit">Форма обратной связи</div>
+        <div class="welcome_text">
+            <form id="feedbackForm" style="font-size: 20px;">
+                <!-- Выбор района -->
+                <label for="districtSelect">Выберите район:</label>
+                <select id="districtSelect">
+                    <option value="" selected disabled>Выберите район</option>
+                    <!-- Районы будут добавлены через JS -->
+                </select>
+
+                <!-- Выбор типа учреждения -->
+
+                <p>Выберите тип учреждения:
+
+                    <input type="radio" id="schoolRadio" name="institutionType" value="child">
+                    <label for="schoolRadio">Школа</label>
+
+                    <input type="radio" id="spoRadio" name="institutionType" value="student">
+                    <label for="spoRadio">СПО</label>
+                </p>
+
+                <!-- Выбор школы/колледжа -->
+                <p>
+                    <label for="institutionSelect">Выберите учреждение:</label>
+                    <select id="institutionSelect" disabled>
+                        <option value="" selected disabled>Сначала выберите район и тип учреждения</option>
+                        <!-- Школы/СПО будут добавлены через JS -->
+                    </select>
+                </p>
+                <hr>
+                <p>
+                    <!-- Как обращаться -->
+                    <label for="nameInput">Как к вам можно обращаться?:</label>
+                    <input type="text" id="nameInput" name="name" placeholder="Иван Иванович" required>
+                </p>
+                <p>
+                    <!-- Телефон и почта -->
+                    <label for="phoneInput">Телефон:</label>
+                    <input type="tel" id="phoneInput" placeholder="+79000000000" name="phone">
+                </p>
+                <p>
+                    <label for="emailInput">Электронная почта:</label>
+                    <input type="email" id="emailInput" placeholder="school@mail.ru" name="email">
+                </p>
+                <hr>
+                <p>
+                    <!-- Поле ввода обращения -->
+                    <label for="messageInput">Текст обращения:</label><br>
+                    <textarea id="messageInput" name="message" rows="4" placeholder="Опишите вашу проблему"></textarea>
+                </p>
+                <p>
+
+                    <button type="submit">Отправить</button>
+                </p>
+            </form>
+        </div>
+        <style>
+            textarea {
+                min-height: 150px;
+                min-width: 100%;
+                resize: none;
+                /* Разрешаем изменять только высоту */
+            }
+
+            button:hover {
+                color: rgb(78, 104, 255);
+                border: 1px solid;
+                background-color: aliceblue;
+                transition: 0.4s;
+            }
+
+            button {
+                font-size: 23px;
+                transition: 0.4s;
+                box-sizing: border-box;
+                border: 0000.1px;
+                width: 30%;
+                height: 3vh;
+                min-height: 48px;
+                margin-left: 71%;
+                border-radius: 30px;
+                background-color: rgb(78, 104, 255);
+                color: aliceblue;
+                cursor: pointer;
+            }
+        </style>
+
+        <!-- Скрипт перемещён сюда -->
+        <script src="/public/js/techsupportscript.js"></script>
+</body>
+
+</html>
