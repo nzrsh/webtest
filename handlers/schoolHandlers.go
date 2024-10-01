@@ -44,6 +44,12 @@ func SchoolSave(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		logger.Logger.Infoln(user.District, user.Name, "Отправил данные!")
 	}
 
+	err = database.InputResultsInDB(user)
+	if err != nil {
+		logger.Logger.Errorln(err)
+		return
+	}
+
 	err = utils.MakeDirAndXmlChild(user)
 
 	if err != nil {
