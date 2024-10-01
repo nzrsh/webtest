@@ -1,9 +1,154 @@
-// Инициализируем необходимые переменные
-let count = 0;
-const numberOfQuestions = 39;
-const answerArr = new Array(numberOfQuestions).fill(null);
+// Импортируем функцию ref из библиотеки Vue
+const { ref } = Vue;
 
-// Массив вопросов
+// Инициализируем переменные и добавляем комментарии
+const count = ref(0); // Счетчик
+const numberOfQuestions = 39; // Количество вопросов
+const answerArr = new Array(numberOfQuestions).fill(null); // Массив ответов
+const text = ref('Обычно у меня бывает сразу несколько увлечений, долгое время увлекаться чем-либо одним мне не свойственно.'); // Текст вопроса
+
+const quest = Vue.createApp({
+  el: "#quest2",
+  data() {
+    return {
+      counter: count,
+      quest: text,
+    }
+  },
+  methods: {
+    slice_arr() {
+      text.value = quest3Arr.at(count.value);
+    },
+    increment() {
+      // Читаем выбранное значение радио
+      const rateValue = document.querySelector('input[name="rate"]:checked');
+      if (rateValue !== null) {
+        const rateValueChecked = rateValue.value;
+        answerArr[count.value] = rateValueChecked;
+        if (count.value == numberOfQuestions - 2) {
+          but = document.getElementById('baton');
+          but.innerHTML = 'Завершить';
+        }
+        if (count.value == numberOfQuestions - 1) {
+			console.log(localStorage)
+          localStorage.setItem('result2', answerArr)
+          
+          this.sendJSONToServer('/schooltest/save')
+          
+		  console.log(localStorage)
+          
+
+        }
+        document.querySelector('input[name="rate"]:checked').checked = false;
+
+        if (count.value !== numberOfQuestions - 1)
+          count.value++;
+        this.slice_arr();
+      } else {
+        //Желательно вставить лейбл с предупреждением вместо алерта, а то он убогий
+        alert("Пожалуйста, выберите необходимые кнопки.");
+      }
+
+    },
+
+
+    sendJSONToServer(url) {
+      console.log("Кнопка нажата")
+      var button = document.getElementById("baton");
+      button.disabled = true;
+      setTimeout(function() {
+        // Включаем кнопку обратно после 5 секунд
+        button.disabled = false;
+      }, 5000);
+      // Получение данных из localStorage
+      var localStorageData = localStorage.getItem('userData');
+      console.log('localStorageData:', localStorageData);
+
+      // Парсинг JSON-строки в объект
+      var user;
+      try {
+        user = JSON.parse(localStorageData);
+        console.log('user:', user);
+      } catch (error) {
+        console.log('Ошибка парсинга JSON:', error);
+      }
+
+      if (user == null)
+      {
+      alert("Вы не были авторизованы. Перенаправление на страницу авторизации.")
+      window.location.href = '/';
+      return;
+      }
+      var results1 = localStorage.getItem('result1');
+      if (results1 == null)
+      {
+        alert("Первая часть теста не была пройдена. Перенаправление на страницу авторизации.")
+        window.location.href = '/';
+        return
+      }
+      console.log('results1:', results1);
+      var results2 = localStorage.getItem('result2');
+      console.log('results2:', results2);
+      var group1 = localStorage.getItem('group')
+      var username1 = localStorage.getItem('username')
+
+      var userData = {
+        id: user.id,
+        district: user.district,
+        name: user.name,
+        password: 'hashed',
+        login: user.login,
+        username: username1,
+        organization: "empty",
+        result1: results1.split(','),
+        result2: results2.split(','),
+        group: group1
+
+      };
+      console.log('userData:', userData);
+
+      // Создание объекта запроса
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.timeout = 5000;
+    
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 400) {
+          console.log('Успешный ответ')
+          // Дополнительные действия при успешном ответе
+          localStorage.removeItem('result1','result2','organization','username')
+          window.location.pathname = "/end";
+
+        } else {
+          console.log('Неуспешный ответ:', xhr.status, xhr.statusText);
+          alert("Ваше интернет соединение нестабильно или недоступно, результаты не были отправлены.")
+        }
+        xhr.onerror = function() {
+          // Ошибка при выполнении запроса
+          console.log('Ошибка запроса');
+          alert("Ваше интернет соединение нестабильно или недоступно, результаты не были отправлены.")
+        };
+      };
+    
+      xhr.onerror = function() {
+        console.log('Ошибка запроса');
+        alert("Ваше интернет соединение нестабильно или недоступно, результаты не были отправлены.")
+      };
+      
+      xhr.ontimeout = function() {
+        // Ошибка "Нет ответа от сервера"
+        console.log('Нет ответа от сервера');
+        alert("Ваше интернет соединение нестабильно или нет ответа от сервера, результаты не были отправлены.")
+      };
+
+      xhr.send(JSON.stringify(userData));
+      console.log(JSON.stringify(userData));
+     
+    }
+  }
+});
+
 var quest3Arr = ['Обычно у меня бывает сразу несколько увлечений, долгое время увлекаться чем-либо одним мне не свойственно.', 'Думаю, мне бы понравилась работа, связанная с административно-хозяйственной деятельностью.', 'Мне очень трудно бывает расставаться с какой-либо мыслью, в которую я когда-то поверил, хотя появилось много убедительных доводов против нее.',
   'В туристическом путешествии я предпочел бы придерживаться программы, составленной специалистами, нежели самому планировать свой маршрут.', 'Если моим замыслам мешают только люди, а не объективные обстоятельства, я предпочитаю действовать в соответствии с этими замыслами.',
   'Обычно дело, за которое я взялся, мне трудно отложить даже ненадолго.', 'Я быстро осваиваюсь в новой обстановке, включаюсь в новое для себя дело.', 'Я считаю, что в интересах дела люди на выборных должностях должны сменяться регулярно.',
@@ -16,106 +161,5 @@ var quest3Arr = ['Обычно у меня бывает сразу нескол�
   'Бывает, что я сержусь.', 'Думая о трудностях в предстоящем деле, я стараюсь планировать их заранее.', 'Всё мне кажется одинаковым на вкус.', 'Мне нравится строить планы заранее, чтобы не терять времени даром.', 'В гостях я держусь за столом лучше, чем дома.',
   'Когда я что-либо делаю, самое главное для меня - чтобы это не повредило моим товарищам.', 'В моей жизни был один или несколько случаев, когда я чувствовал, что кто-то посредством гипноза заставляет меня совершать те или иные поступки.',
   'В своих поступках я всегда стараюсь придерживаться общепринятых правил поведения.', 'Бывает, что я откладываю на завтра то, что нужно сделать сегодня.', 'Я довольно требовательный человек и нередко настаиваю, чтобы всё делалось правильно.',
-  'Считаю, что с памятью у меня всё в полном порядке.', 'Мне нравится работа, требующая прежде всего добросовестности, точных навыков и умений.'];
-
-// Обновляем текст вопроса
-function updateQuestion() {
-    const questionText = document.getElementById('question-text');
-    questionText.textContent = `${count + 1}/39. ${quest3Arr[count]}`;
-}
-
-// Добавляем обработчик события для кнопки "Далее"
-document.getElementById('baton').addEventListener('click', function () {
-    const rateValue = document.querySelector('input[name="rate"]:checked');
-    
-    if (rateValue !== null) {
-        // Сохраняем выбранный ответ
-        answerArr[count] = rateValue.value;
-        document.querySelector('input[name="rate"]:checked').checked = false;
-
-        // Обновляем состояние кнопки на "Завершить", если последний вопрос
-        if (count === numberOfQuestions - 2) {
-            document.getElementById('baton').innerText = 'Завершить';
-        }
-
-        // Проверяем, если это последний вопрос
-        if (count === numberOfQuestions - 1) {
-            localStorage.setItem('result2', answerArr);
-            sendJSONToServer('/schooltest/save');
-            return;
-        }
-
-        // Увеличиваем счетчик вопросов
-        count++;
-        updateQuestion();
-    } else {
-        alert("Пожалуйста, выберите необходимую опцию.");
-    }
-});
-
-// Функция для отправки данных на сервер
-function sendJSONToServer(url) {
-    const button = document.getElementById('baton');
-    button.disabled = true;
-    const localStorageData = localStorage.getItem('userData');
-
-    let user;
-    try {
-        user = JSON.parse(localStorageData);
-    } catch (error) {
-        console.error('Ошибка парсинга JSON:', error);
-        return;
-    }
-
-    if (!user) {
-        alert("Вы не авторизованы.");
-        window.location.href = '/';
-        return;
-    }
-
-    const results1 = localStorage.getItem('result1');
-    if (!results1) {
-        alert("Первая часть теста не пройдена.");
-        window.location.href = '/';
-        return;
-    }
-
-    const userData = {
-        id: user.id,
-        district: user.district,
-        name: user.name,
-        password: 'hashed',
-        login: user.login,
-        username: localStorage.getItem('username'),
-        organization: "empty",
-        result1: results1.split(','),
-        result2: answerArr,
-        group: localStorage.getItem('group')
-    };
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 400) {
-            localStorage.clear();
-            window.location.pathname = "/end";
-        } else {
-            alert("Ошибка отправки данных.");
-        }
-        button.disabled = false;
-    };
-    xhr.onerror = function () {
-        alert("Ошибка соединения.");
-        button.disabled = false;
-    };
-
-    xhr.ontimeout = function () {
-        alert("Время ожидания истекло. Сервер не отвечает.");
-        button.disabled = false;
-    };
-    xhr.send(JSON.stringify(userData));
-}
-
-// Инициализация первого вопроса
-updateQuestion();
+  'Считаю, что с памятью у меня всё в полном порядке.', 'Мне нравится работа, требующая прежде всего добросовестности, точных навыков и умений.']
+const vm = quest.mount('#quest2')
